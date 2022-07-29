@@ -1,6 +1,6 @@
-For our Project 1 we will design and create a drink recomender based on the current weather conditions.
+For our Project 1 we will design and create a drink recommender based on the current weather conditions.
 
-As a responsible adult, I want the app to recommend me a beverage based on the current weather conditons.
+As a responsible adult, I want the app to recommend me a beverage based on the current weather conditions.
 
 WHEN I open the app
 THEN I can confirm I am 21 years or older
