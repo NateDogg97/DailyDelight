@@ -12,6 +12,8 @@
 var button = document.getElementById('searchBtn');
 var userInput = document.getElementById('locSearch');
 
+button.innerHTML = 'Sup';
+
 // ====================
 //   INITIALIZATIONS
 // ====================
@@ -76,4 +78,8 @@ function currentAPI(Lat, Lon) {
 // ====================
 
 //Search button gathers input field value and passes it into API Chain
-button.addEventListener('click', btnGO);
+button.addEventListener('click', test);
+
+function test() {
+    console.log('I be pushed');
+}
