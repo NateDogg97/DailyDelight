@@ -10,7 +10,7 @@
 // ====================
 
 var button = document.getElementById('searchBtn');
-var userInput = document.getElementById('search-input');
+var userInput = document.getElementById('locSearch');
 
 // ====================
 //   INITIALIZATIONS
