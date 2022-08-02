@@ -1,6 +1,5 @@
 ## WELCOME:
 
-<img style='transform: scale(0.6)' src="./assets/images/RuntimeTerrorFINAL.png" alt="Runtime Terror Banner"/>
 
 This is the README.md for the Team Runtime-Terror's Project One titled: <i>Daily Delight</i>
 
