@@ -12,7 +12,7 @@
 var button = document.getElementById('searchBtn');
 var userInput = document.getElementById('locSearch');
 
-button.innerHTML = 'Sup';
+button.textContent= 'Sup';
 
 // ====================
 //   INITIALIZATIONS
