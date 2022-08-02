@@ -2,38 +2,122 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Library of Congress Search</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400&family=Merriweather:wght@700&display=swap"
-    rel="stylesheet" />
-  <link rel="stylesheet" href="./assets/css/jass.css" />
-  <link rel="stylesheet" href="./assets/css/style.css" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <title>Document</title>
 </head>
 
 <body>
-  <div class="flex-row align-center justify-center min-100-vh bg-primary">
-    <div class="col-12 col-md-9 flex-column align-center bg-light p-5">
-      <h1 class="text-primary">Library of Congress Search Engine</h1>
-      <form id="search-form" class="form w-100">
-        <input id="search-input" class="form-input w-100" type="text" placeholder="Search!">
-        <select id="format-input" class="form-input w-100">
-          <option value="" disabled selected>Select a format...</option>
-          <option value="maps">Maps</option>
-          <option value="audio">Audio</option>
-          <option value="photos">Photos</option>
-          <option value="manuscripts">Manuscripts</option>
-          <option value="newspapers">Newspapers</option>
-          <option value="film-and-videos">Film and Videos</option>
-          <option value="notated-music">Notated Music</option>
-          <option value="websites">Websites</option>
-        </select>
-        <button class="btn btn-info btn-block">Click Me</button>
-      </form>
-    </div>
-  </div>
+    <nav>
+        <div class="nav-wrapper blue darken-2">
+            <a href="#" class="brand-logo center blue darken-2">Daily Delight</a>
+        </div>
+    </nav>
+    <div class="row">
 
-  <script src="./assets/js/script.js"></script>
+        <div class="col s3">
+            <!-- Grey navigation panel -->
+            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+
+            <!-- Modal Structure -->
+            <div id="modal1" class="modal">
+                <div class="modal-content">
+                    <h4>Modal Header</h4>
+                    <p>A bunch of text</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s9">
+            <!-- Teal page content  -->
+            <div class="row">
+                <div class="col s12">This div is 12-columns wide on all screen sizes</div>
+                <div class="col s6">
+                    <div class="card z-depth-5">
+                        <div class="card-image waves-effect waves-block waves-light">
+                            <img class="activator" src="images/office.jpg">
+                        </div>
+                        <div class="card-content teal lighten-4">
+                            <span class="card-title activator grey-text text-darken-4">Card Title<i
+                                    class="material-icons right">more_vert</i></span>
+                            <p><a href="#">This is a link</a></p>
+                        </div>
+                        <div class="card-reveal">
+                            <span class="card-title grey-text text-darken-4">Card Title<i
+                                    class="material-icons right">close</i></span>
+                            <p>Here is some more information about this product that is only revealed once clicked on.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="card z-depth-5">
+                        <div class="card-image waves-effect waves-block waves-light">
+                            <img class="activator" src="images/office.jpg">
+                        </div>
+                        <div class="card-content teal lighten-4">
+                            <span class="card-title activator grey-text text-darken-4">Card Title<i
+                                    class="material-icons right">more_vert</i></span>
+                            <p><a href="#">This is a link</a></p>
+                        </div>
+                        <div class="card-reveal">
+                            <span class="card-title grey-text text-darken-4">Card Title<i
+                                    class="material-icons right">close</i></span>
+                            <p>Here is some more information about this product that is only revealed once clicked on.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">This div is 12-columns wide on all screen sizes</div>
+                <div class="col s6">
+                    <div class="card z-depth-5">
+                        <div class="card-image waves-effect waves-block waves-light">
+                            <img class="activator" src="images/office.jpg">
+                        </div>
+                        <div class="card-content teal lighten-4">
+                            <span class="card-title activator grey-text text-darken-4">Card Title<i
+                                    class="material-icons right">more_vert</i></span>
+                            <p><a href="#">This is a link</a></p>
+                        </div>
+                        <div class="card-reveal">
+                            <span class="card-title grey-text text-darken-4">Card Title<i
+                                    class="material-icons right">close</i></span>
+                            <p>Here is some more information about this product that is only revealed once clicked on.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="card z-depth-5">
+                        <div class="card-image waves-effect waves-block waves-light">
+                            <img class="activator" src="images/office.jpg">
+                        </div>
+                        <div class="card-content teal lighten-4">
+                            <span class="card-title activator grey-text text-darken-4">Card Title<i
+                                    class="material-icons right">more_vert</i></span>
+                            <p><a href="#">This is a link</a></p>
+                        </div>
+                        <div class="card-reveal">
+                            <span class="card-title grey-text text-darken-4">Card Title<i
+                                    class="material-icons right">close</i></span>
+                            <p>Here is some more information about this product that is only revealed once clicked on.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 </html>
