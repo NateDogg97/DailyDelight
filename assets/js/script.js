@@ -1,9 +1,29 @@
 
+// ====================
+//      IMPORTS
+// ====================
+
+//import * as X from "Y";
+
+// ====================
+//  ACCESS HTML BY DOM
+// ====================
+
 var button = document.getElementById('searchBtn');
 var userInput = document.getElementById('search-input');
 
+// ====================
+//   INITIALIZATIONS
+// ====================
+
 var locationName;
 
+// ====================
+//      FUNCTIONS
+// ====================
+
+//BTN-GO
+//Search Button Calls this function which begins the API Chain
 function btnGO() {
 
     locationName = String(userInput.value);
@@ -24,17 +44,17 @@ function btnGO() {
     });
 
     //Takes those Coords and passes them into the two APIs for display on the site
-    const giveLongLats = () => {
+    giveLongLats = () => {
         geoData.then((a) => {
             // Call a function to update cityBox and make a history button 
             currentAPI(a[0], a[1]);
             });
     };
 
-    //Probably don't need this and just have the function automatically get called above...
-    giveLongLats();
 };
 
+//CURRENT-WEATHER-API
+//Uses given Lat and Lon to tell current weather of that city
 function currentAPI(Lat, Lon) {
 
     var currentURL = 'https://api.openweathermap.org/data/2.5/onecall?lat='+Lat+'&lon='+Lon+'&exclude=minutely,hourly,daily,alerts&appid=3b3319e2a4bdc403d7f45843c07de674';
@@ -51,4 +71,9 @@ function currentAPI(Lat, Lon) {
     });
 };
 
+// ====================
+//      EVENT LISTENERS
+// ====================
+
+//Search button gathers input field value and passes it into API Chain
 button.addEventListener('click', btnGO);
