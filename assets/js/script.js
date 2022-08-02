@@ -12,8 +12,6 @@
 var button = document.getElementById('searchBtn');
 var userInput = document.getElementById('locSearch');
 
-button.textContent= 'Sup';
-
 // ====================
 //   INITIALIZATIONS
 // ====================
@@ -46,12 +44,15 @@ function btnGO() {
     });
 
     //Takes those Coords and passes them into the two APIs for display on the site
-    giveLongLats = () => {
+    const giveLongLats = () => {
         geoData.then((a) => {
             // Call a function to update cityBox and make a history button 
             currentAPI(a[0], a[1]);
             });
     };
+
+    //Fires off the giveLongLats func
+    giveLongLats();
 
 };
 
@@ -78,8 +79,5 @@ function currentAPI(Lat, Lon) {
 // ====================
 
 //Search button gathers input field value and passes it into API Chain
-button.addEventListener('click', test);
+button.addEventListener('click', btnGO);
 
-function test() {
-    console.log('I be pushed');
-}
