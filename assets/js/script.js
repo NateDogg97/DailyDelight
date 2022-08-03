@@ -125,15 +125,48 @@ function ingredientAPI(icon) {
 
 };
 
+//CONDITIONALS
+//These variables make ingredientAPI work
+var clearSky = 'lime_juice'
+var clearSkyNight = 'bourbon'
+
+
 //COCKTAIL-ID-API
 //Takes the ID from the ingredient API and gives back all the drink details
 // function cocktailAPI(ID) {
 // }
 
-//CONDITIONALS
-//These variables make ingredientAPI work
-var clearSky = 'lime_juice'
-var clearSkyNight = 'bourbon'
+
+// ====================
+//      EVENT LISTENERS
+// ====================
+
+//Search button gathers input field value and passes it into API Chain
+button.addEventListener('click', btnGO);
+
+// ====================
+//      ASSIST FUNCs
+// ====================
+
+//INFANT ANNIHILATOR
+//Removes all children from a node
+function infantAnnihilator(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+};
+
+//CAPITALIZE
+//Capitalizes the initial character of a string
+function capStr(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+//RANDOM NUMBER
+//Pass an array as an argument and you'll receive a random number bounnd by the array's length
+function getRandomDrink(max) {
+    return Math.floor(Math.random() * max);
+};
 
 
 //JUAN DRINK FUNCTION
@@ -173,35 +206,4 @@ function getDrinks(data) {
                 console.log(data.drinks[Math.floor(Math.random()*data.drinks.length)]);
             }
         })
-};
-
-// ====================
-//      EVENT LISTENERS
-// ====================
-
-//Search button gathers input field value and passes it into API Chain
-button.addEventListener('click', btnGO);
-
-// ====================
-//      ASSIST FUNCs
-// ====================
-
-//INFANT ANNIHILATOR
-//Removes all children from a node
-function infantAnnihilator(parent) {
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
-    }
-};
-
-//CAPITALIZE
-//Capitalizes the initial character of a string
-function capStr(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
-
-//RANDOM NUMBER
-//Pass an array as an argument and you'll receive a random number bounnd by the array's length
-function getRandomDrink(max) {
-    return Math.floor(Math.random() * max);
 };
