@@ -114,19 +114,24 @@ const options = {
 function recommendItem(icon) {
     if (icon === '01d'){
 
-      fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=ice')
+      fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i='+clearSkyNight)
                                                         // Filter is here //
         // An opportunity for added complexity lies in the way we filter the response //
-	    .then(response => response.json())
+	    .then(data => data.json())
 	    // .then(response => console.log(response))
 
         // This chooses a random drink from the list of drinks returned from the cocktail API
-        .then(function(response){
-            var i = getRandomDrink(response.drinks.length);
-            console.log(response.drinks[i]);
+        .then(function(data){
+            
+            for(var i = 0; i < 5; i++){
+                console.log(data.drinks[Math.floor(Math.random()*data.drinks.length)]);
+            }
+            // console.log(data.)
+            // var choice = getRandomDrink(data.drinks.length);
+            // console.log(data[choice]);
             
         // The goal here is to return the drink name and image from the API so we can use it somewhere else
-            return [response.drinks[i].strDrink, response.drinks[i].strDrinkThumb];
+            //[data[choice].strDrink, data[choice].strDrinkThumb];
         })
 
         .catch(err => console.error(err));
