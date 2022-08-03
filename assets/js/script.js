@@ -81,3 +81,43 @@ function currentAPI(Lat, Lon) {
 //Search button gathers input field value and passes it into API Chain
 button.addEventListener('click', btnGO);
 
+// Example of a variable we can use to filter the fetch Url //
+// The advantage of using a variable like this is the we can code functions that
+// alter the value of this variable to fit the user's prefernces //
+var clearSky = 'ice%2Clime_juice'
+var clearSkyNight = 'bourbon'
+
+function getRandomDrink(max) {
+    return Math.floor(Math.random() * max);
+}
+
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '7d2a540bc0mshf6af0c1a2ca6a06p12ec6cjsn89fc7b5edd84',
+		'X-RapidAPI-Host': 'the-cocktail-db.p.rapidapi.com'
+	}
+};
+
+function recommendItem() {
+    if (i/* WeatherApi.current.weather.icon*/ === '01d'){
+
+      fetch('https://the-cocktail-db.p.rapidapi.com/filter.php?i=ice', options)
+                                                        // Filter is here //
+        // An opportunity for added complexity lies in the way we filter the response //
+	    .then(response => response.json())
+	    .then(response => console.log(response))
+
+        // This chooses a random drink from the list of drinks returned from the cocktail API
+        .then(function(data){
+            var choice = getRandomDrink(data.drinks.length);
+            console.log(data[choice]);
+            
+        // The goal here is to return the drink name and image from the API so we can use it somewhere else
+            return [data[choice].strDrink, data[choice].strDrinkThumb];
+        })
+
+        .catch(err => console.error(err));
+
+    }
+}
