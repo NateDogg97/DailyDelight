@@ -14,7 +14,7 @@ var userInput = document.getElementById('locSearch');
 
 // ====================
 //   INITIALIZATIONS
-// ====================
+// ==================== 
 
 var locationName;
 
@@ -62,7 +62,7 @@ function currentAPI(Lat, Lon) {
 
     var currentURL = 'https://api.openweathermap.org/data/2.5/onecall?lat='+Lat+'&lon='+Lon+'&exclude=minutely,hourly,daily,alerts&appid=3b3319e2a4bdc403d7f45843c07de674';
 
-    fetch(currentURL)
+    const blah = fetch(currentURL)
 
         .then(function (response) {
             return response.json();
@@ -70,8 +70,20 @@ function currentAPI(Lat, Lon) {
 
         .then(function (data) {
             console.log(data);
-
+            // let theIcon = data.current.weather.icon;
+            let theIcon = '01d';
+            return theIcon
     });
+
+    const doNatesFunc = () => {
+        blah.then((theIcon) => {
+            // Call a function to update cityBox and make a history button 
+            recommendItem(theIcon);
+            });
+    };
+
+    doNatesFunc();
+
 };
 
 // ====================
@@ -89,7 +101,7 @@ var clearSkyNight = 'bourbon'
 
 function getRandomDrink(max) {
     return Math.floor(Math.random() * max);
-}
+};
 
 const options = {
 	method: 'GET',
@@ -99,8 +111,8 @@ const options = {
 	}
 };
 
-function recommendItem() {
-    if (i/* WeatherApi.current.weather.icon*/ === '01d'){
+function recommendItem(icon) {
+    if (icon === '01d'){
 
       fetch('https://the-cocktail-db.p.rapidapi.com/filter.php?i=ice', options)
                                                         // Filter is here //
@@ -120,4 +132,4 @@ function recommendItem() {
         .catch(err => console.error(err));
 
     }
-}
+};
