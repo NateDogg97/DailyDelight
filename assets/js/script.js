@@ -133,3 +133,56 @@ function recommendItem(icon) {
 
     }
 };
+
+function getDrinks(data) {
+    console.log(data);
+    // INGREDIENTS BY TEMP
+    // var temp = data.current.temp;
+    // var ingredients = '';
+    // if(temp > 80) {
+    //     ingredients += 'ice';
+    // }
+    // fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + ingredients)
+    //     .then(function (response) {
+    //         return response.json();
+    //     })
+    //     .then(function (data) {
+    //         for(var i = 0; i < 5; i++){
+    //             console.log(data.drinks[Math.floor(Math.random()*data.drinks.length)]);
+    //         }
+    //     })
+
+    // INGREDIENTS BY WEATHER
+    // has ingredients sorted in groups by the main weather attributes
+    var rainIngr = ['Gin', 'vodka', 'Apple Juice'];
+    var snowIngr = ['Chocolate', 'Cocoa Powder', 'Eggnog'];
+    var clearIngr = ['Fruit', 'Honey', 'Lemonade'];
+    var cloudyIngr = ['Salt', 'Sour Mix', 'Sweet and Sour'];
+    var freezeNBelow = ['Ale','Apple'];
+    var ingrString = '';
+    console.log(data.current.weather[0].main);
+    // if main equals whatever main, it adds all the clearIngr ingredients to the ingredient string
+    if(data.current.weather[0].main == 'Clear'){
+        for(var i = 0; i < clearIngr.length; i++){
+            ingrString += clearIngr[i] + ',';
+        }
+    }
+    // if temperature <= 32, it adds all the freezeNBelow ingredients to the ingredient string
+    if(data.current.temp <= 32){
+        for(var i = 0; i < freezeNBelow.length; i++){
+            ingrString += freezeNBelow[i] + ',';
+        }
+    }
+    // deletes last comma at the end of string
+    var finalString = ingrString.slice(0,-1);
+    // displays, at most, 5 drinks with the chosen ingredient
+    fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + finalString)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            for(var i = 0; i < 5; i++){
+                console.log(data.drinks[Math.floor(Math.random()*data.drinks.length)]);
+            }
+        })
+}
