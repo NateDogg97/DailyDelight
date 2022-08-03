@@ -114,19 +114,19 @@ const options = {
 function recommendItem(icon) {
     if (icon === '01d'){
 
-      fetch('https://the-cocktail-db.p.rapidapi.com/filter.php?i=ice', options)
+      fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=ice')
                                                         // Filter is here //
         // An opportunity for added complexity lies in the way we filter the response //
 	    .then(response => response.json())
-	    .then(response => console.log(response))
+	    // .then(response => console.log(response))
 
         // This chooses a random drink from the list of drinks returned from the cocktail API
-        .then(function(data){
-            var choice = getRandomDrink(data.drinks.length);
-            console.log(data[choice]);
+        .then(function(response){
+            var i = getRandomDrink(response.drinks.length);
+            console.log(response.drinks[i]);
             
         // The goal here is to return the drink name and image from the API so we can use it somewhere else
-            return [data[choice].strDrink, data[choice].strDrinkThumb];
+            return [response.drinks[i].strDrink, response.drinks[i].strDrinkThumb];
         })
 
         .catch(err => console.error(err));
