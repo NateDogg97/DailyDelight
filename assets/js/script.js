@@ -29,8 +29,16 @@ function btnGO() {
     locationName = String(userInput.value);
     console.log(locationName);
 
+    // geocodingAPI(locationName); //UNCOMMENT AFTER DEV COMPLETE
+
+    let icon = '01d';  //REMOVE THIS LINE AND NEXT AFTER DEV
+    ingredientAPI(icon); //For dev, bypass openweatherAPI chain entirely and just use CocktailDB
+};
+
+function geocodingAPI(locationName) {
     var LONGLATurl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + locationName + '&limit=1&appid=3b3319e2a4bdc403d7f45843c07de674';
     
+    //Write our fetch request function as an expression
     const geoData = fetch(LONGLATurl)
 
     .then(function (response) {
@@ -43,17 +51,15 @@ function btnGO() {
         return [data[0].lat, data[0].lon];
     });
 
-    //Takes those Coords and passes them into the two APIs for display on the site
+    //Takes those Coords and passes those coords to the current weather API
     const giveLongLats = () => {
         geoData.then((a) => {
-            // Call a function to update cityBox and make a history button 
             currentAPI(a[0], a[1]);
             });
     };
 
     //Fires off the giveLongLats func
     giveLongLats();
-
 };
 
 //CURRENT-WEATHER-API
@@ -62,100 +68,77 @@ function currentAPI(Lat, Lon) {
 
     var currentURL = 'https://api.openweathermap.org/data/2.5/onecall?lat='+Lat+'&lon='+Lon+'&exclude=minutely,hourly,daily,alerts&appid=3b3319e2a4bdc403d7f45843c07de674';
 
-    const blah = fetch(currentURL)
+    //Makes the fetch current weather function an expression that is manipulatable
+    const cityWeather = fetch(currentURL)
 
         .then(function (response) {
             return response.json();
     })
 
+        //We now have the current weather data as the variable 'data'
         .then(function (data) {
-            console.log(data);
-            // let theIcon = data.current.weather.icon;
-            let theIcon = '01d';
+            console.log(data); //See data from the OneCall API
+            let theIcon = data.current.weather.icon; //From that data we can get a snapshot in the form of the weather icon
             return theIcon
     });
 
-    const doNatesFunc = () => {
-        blah.then((theIcon) => {
-            // Call a function to update cityBox and make a history button 
-            recommendItem(theIcon);
+    //Now we pass the weather icon to the ingredientAPI
+    const passtoCocktailDB = () => {
+        cityWeather.then((theIcon) => {
+            ingredientAPI(theIcon);
             });
     };
 
-    doNatesFunc();
+    passtoCocktailDB();
 
 };
 
-// ====================
-//      EVENT LISTENERS
-// ====================
+//COCKTAIL-INGREDIENT-API
+//Takes the icon from weather API, turns that into a cocktail ingredient, then searches based on that ingredient
+function ingredientAPI(icon) {
 
-//Search button gathers input field value and passes it into API Chain
-button.addEventListener('click', btnGO);
+    var theIngredient;
 
-// Example of a variable we can use to filter the fetch Url //
-// The advantage of using a variable like this is the we can code functions that
-// alter the value of this variable to fit the user's prefernces //
-var clearSky = 'ice%2Clime_juice'
-var clearSkyNight = 'bourbon'
-
-function getRandomDrink(max) {
-    return Math.floor(Math.random() * max);
-};
-
-const options = {
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': '7d2a540bc0mshf6af0c1a2ca6a06p12ec6cjsn89fc7b5edd84',
-		'X-RapidAPI-Host': 'the-cocktail-db.p.rapidapi.com'
-	}
-};
-
-function recommendItem(icon) {
     if (icon === '01d'){
+        theIngredient = 'mint';
+    };
 
-      fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i='+clearSkyNight)
-                                                        // Filter is here //
-        // An opportunity for added complexity lies in the way we filter the response //
-	    .then(data => data.json())
-	    // .then(response => console.log(response))
+    //Fetches data from the CocktailDB by searching by ingredient
+    fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + theIngredient)
 
-        // This chooses a random drink from the list of drinks returned from the cocktail API
+	    .then(data => data.json())  
+
+        //Data is all drinks containing 'theIngredient'
         .then(function(data){
-            
-            for(var i = 0; i < 5; i++){
-                console.log(data.drinks[Math.floor(Math.random()*data.drinks.length)]);
+          
+            //Gives four random drinks out of all those drinks in data
+            for(var i = 0; i < 4; i++){
+
+                console.log(data.drinks[getRandomDrink(data.drinks.length)]);
             }
-            // console.log(data.)
-            // var choice = getRandomDrink(data.drinks.length);
-            // console.log(data[choice]);
-            
-        // The goal here is to return the drink name and image from the API so we can use it somewhere else
-            //[data[choice].strDrink, data[choice].strDrinkThumb];
+
+            //return [data[choice].strDrink, data[choice].strDrinkThumb];
         })
 
+        //Incase promises are unkept
         .catch(err => console.error(err));
 
-    }
 };
 
+//COCKTAIL-ID-API
+//Takes the ID from the ingredient API and gives back all the drink details
+// function cocktailAPI(ID) {
+// }
+
+//CONDITIONALS
+//These variables make ingredientAPI work
+var clearSky = 'lime_juice'
+var clearSkyNight = 'bourbon'
+
+
+//JUAN DRINK FUNCTION
+//Kept for posterity, several capabilities here we may wanna implement after acheiving MVP
 function getDrinks(data) {
-    console.log(data);
-    // INGREDIENTS BY TEMP
-    // var temp = data.current.temp;
-    // var ingredients = '';
-    // if(temp > 80) {
-    //     ingredients += 'ice';
-    // }
-    // fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + ingredients)
-    //     .then(function (response) {
-    //         return response.json();
-    //     })
-    //     .then(function (data) {
-    //         for(var i = 0; i < 5; i++){
-    //             console.log(data.drinks[Math.floor(Math.random()*data.drinks.length)]);
-    //         }
-    //     })
 
     // INGREDIENTS BY WEATHER
     // has ingredients sorted in groups by the main weather attributes
@@ -190,4 +173,35 @@ function getDrinks(data) {
                 console.log(data.drinks[Math.floor(Math.random()*data.drinks.length)]);
             }
         })
-}
+};
+
+// ====================
+//      EVENT LISTENERS
+// ====================
+
+//Search button gathers input field value and passes it into API Chain
+button.addEventListener('click', btnGO);
+
+// ====================
+//      ASSIST FUNCs
+// ====================
+
+//INFANT ANNIHILATOR
+//Removes all children from a node
+function infantAnnihilator(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+};
+
+//CAPITALIZE
+//Capitalizes the initial character of a string
+function capStr(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+//RANDOM NUMBER
+//Pass an array as an argument and you'll receive a random number bounnd by the array's length
+function getRandomDrink(max) {
+    return Math.floor(Math.random() * max);
+};
