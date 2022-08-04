@@ -28,7 +28,7 @@ Team Runtime-Terror is:
 * Juan Gonzales
 * Matty Lawhorn
 * Nathaniel Mays
-* Tay Collins
+* LaTavya "Tay" Collins
 
 July/August 2022
 
