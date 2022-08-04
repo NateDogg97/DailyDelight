@@ -98,6 +98,7 @@ function ingredientAPI(icon) {
 
     var theIngredient;
 
+    //CONDITIONALS
     if (icon === '01d'){
         theIngredient = 'mint';
     };
@@ -113,7 +114,18 @@ function ingredientAPI(icon) {
             //Gives four random drinks out of all those drinks in data
             for(var i = 0; i < 4; i++){
 
-                console.log(getRandomDrink(data));
+                //This is a random drink object from our big pile o' relevent drinks
+                randoDrink = getRandomDrink(data);
+
+                //This is where a function that changes the cards HTML to the drink data goes
+                change_front_of_Cards(i, randoDrink);
+                
+                //Get the ID from the object to pass into the next function
+                var drinkStuff = Object.values(randoDrink);
+                var drinkID = drinkStuff[2];
+
+                //Now to pass off the cocktail-ID, get that data, and paste it into the hidden pull-up card
+                ccktIDAPI(i, drinkID);
             }
 
             //return [data[choice].strDrink, data[choice].strDrinkThumb];
@@ -124,37 +136,42 @@ function ingredientAPI(icon) {
 
 };
 
-//CONDITIONALS
-//These variables make ingredientAPI work
-var clearSky = 'lime_juice'
-var clearSkyNight = 'bourbon'
+//CHANGE-CARD-FRONT
+//For-loop index is used to grab the correct card and change its HTML to the info
+function change_front_of_Cards(i, data) {
 
+    console.log(data);
+
+    // var theCard = document.getElementbyID('debugCard'+i);
+    //then stuff that:
+    //Changes the pic
+    //Changes the card title
+    //yada blah yada blah
+};
 
 //COCKTAIL-ID-API
 //Takes the ID from the ingredient API and gives back all the drink details www.thecocktaildb.com/api/json/v1/1/lookup.php?i=11007
-function ccktIDAPI(lookupID) {
-
-    var theIngredient;
-
-    if (icon === '01d'){
-        theIngredient = 'mint';
-    };
+function ccktIDAPI(i, drinkID) {
 
     //Fetches data from the CocktailDB by searching by ingredient
-    fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + theIngredient)
+    fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkID)
 
 	    .then(data => data.json())  
 
         //Data is all drinks containing 'theIngredient'
         .then(function(data){
-          
-            //Gives four random drinks out of all those drinks in data
-            for(var i = 0; i < 4; i++){
 
-                console.log(getRandomDrink(data));
-            }
-
-            //return [data[choice].strDrink, data[choice].strDrinkThumb];
+            console.log(data);
+            
+                // var theCard = document.getElementbyID('debugCard'+i);
+                //then stuff that:
+                //if (!strVideo) {
+                //     'Sorry, no video available'
+                // } else {
+                //     Post the video 
+                // }
+                //Changes the card title
+                //Drink mixing instructions
         })
 
         //Incase promises are unkept
@@ -188,8 +205,8 @@ function capStr(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-//RANDOM NUMBER
-//Pass in an array with a list of drinks and you'll get a random one back
+//RANDOM DRINK
+//Pass in an array with a list of drinks and you'll get a random one back as an object
 function getRandomDrink(data) {
     return data.drinks[Math.floor(Math.random() * data.drinks.length)];
 }
