@@ -12,6 +12,8 @@ const options = {
 
 function recommendItem(icon) {
 
+    var drinkArray = [];
+
     var theIngredient;
 
            if (icon === '01d'){
@@ -40,20 +42,37 @@ function recommendItem(icon) {
         theIngredient = '';
     }
 
-      fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=ice')
+      fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + theIngredient)
 
 	    .then(data => data.json())
 
         .then(function(data){
             
             for(var i = 0; i < 5; i++){
-                console.log(data.drinks[getRandomDrink(data.drinks.length)]);
-                console.log(data.drinks[i].strDrink);
-                return 
-            }                      
+                var tempDrink = data.drinks[Math.floor(Math.random()*data.drinks.length)];
+                console.log(tempDrink);
+                drinkArray.push(tempDrink);
+            }
+            
+            displayDrinks(drinkArray);                     
         })
 
         .catch(err => console.error(err));
 
     
 };
+
+//===================
+//   Juan's Code   //
+//===================
+
+var firstImgEl = document.querySelector('#img-1');
+var secondImgEl = document.querySelector('#img-2');
+var thirdImgEl = document.querySelector('#img-3');
+var fourthImgEl = document.querySelector('#img-4');
+function displayDrinks(drinkArray) {
+    for(var i = 0; i < 4; i++){
+        var el = document.querySelector('#img-' + (i+1));
+        el.setAttribute('src', drinkArray[i].strDrinkThumb);
+    }
+}
