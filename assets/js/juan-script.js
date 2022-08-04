@@ -140,16 +140,31 @@ function recommendItem(icon) {
     }
 };
 
-var firstImgEl = document.querySelector('#img-1');
-var secondImgEl = document.querySelector('#img-2');
-var thirdImgEl = document.querySelector('#img-3');
-var fourthImgEl = document.querySelector('#img-4');
 function displayDrinks(drinkArray) {
+    var instructionArray = [];
+    var t = '';
     for(var i = 0; i < 4; i++){
-        var el = document.querySelector('#img-' + (i+1));
-        el.setAttribute('src', drinkArray[i].strDrinkThumb);
+        var imgEl = document.querySelector('#img-' + (i+1));
+        var nameEl = document.querySelectorAll('.name-' + (i+1));
+        imgEl.setAttribute('src', drinkArray[i].strDrinkThumb);
+        for(var x = 0; x < 2; x++){
+            nameEl[x].textContent = drinkArray[i].strDrink;
+        }
+        var instrEl = document.querySelectorAll('.instr');
+        const instruction = fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
+            .then(response => response.json())
+            .then(function (data) {
+               return data.drinks[0].strInstructions;
+            }) 
+        const instr = async() => {
+            const a = await instruction;
+            return a;
+        };
+        
     }
 }
+
+
 
 function getDrinks(data) {
     console.log(data);
