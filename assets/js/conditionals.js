@@ -51,9 +51,14 @@ function recommendItem(icon) {
             for(var i = 0; i < 5; i++){
                 var tempDrink = data.drinks[Math.floor(Math.random()*data.drinks.length)];
                 console.log(tempDrink);
-                drinkArray.push(tempDrink);
+
+                if (drinkArray.indexOf(tempDrink) !== -1){
+                    i--;
+                } else {
+                    drinkArray.push(tempDrink);
+                }               
             }
-            
+
             displayDrinks(drinkArray);                     
         })
 
