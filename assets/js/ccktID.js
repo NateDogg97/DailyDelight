@@ -131,9 +131,36 @@ var clearSkyNight = 'bourbon'
 
 
 //COCKTAIL-ID-API
-//Takes the ID from the ingredient API and gives back all the drink details
-// function cocktailAPI(ID) {
-// }
+//Takes the ID from the ingredient API and gives back all the drink details www.thecocktaildb.com/api/json/v1/1/lookup.php?i=11007
+function ccktIDAPI(lookupID) {
+
+    var theIngredient;
+
+    if (icon === '01d'){
+        theIngredient = 'mint';
+    };
+
+    //Fetches data from the CocktailDB by searching by ingredient
+    fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + theIngredient)
+
+	    .then(data => data.json())  
+
+        //Data is all drinks containing 'theIngredient'
+        .then(function(data){
+          
+            //Gives four random drinks out of all those drinks in data
+            for(var i = 0; i < 4; i++){
+
+                console.log(getRandomDrink(data));
+            }
+
+            //return [data[choice].strDrink, data[choice].strDrinkThumb];
+        })
+
+        //Incase promises are unkept
+        .catch(err => console.error(err));
+
+};
 
 
 // ====================
@@ -162,7 +189,7 @@ function capStr(string) {
   };
 
 //RANDOM NUMBER
-//Pass an array as an argument and you'll receive a random number bounnd by the array's length
+//Pass in an array with a list of drinks and you'll get a random one back
 function getRandomDrink(data) {
     return data.drinks[Math.floor(Math.random() * data.drinks.length)];
 }
