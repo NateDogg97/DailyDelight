@@ -113,7 +113,7 @@ function ingredientAPI(icon) {
             //Gives four random drinks out of all those drinks in data
             for(var i = 0; i < 4; i++){
 
-                console.log(data.drinks[getRandomDrink(data.drinks.length)]);
+                console.log(getRandomDrink(data));
             }
 
             //return [data[choice].strDrink, data[choice].strDrinkThumb];
@@ -163,9 +163,9 @@ function capStr(string) {
 
 //RANDOM NUMBER
 //Pass an array as an argument and you'll receive a random number bounnd by the array's length
-function getRandomDrink(max) {
-    return Math.floor(Math.random() * max);
-};
+function getRandomDrink(data) {
+    return data.drinks[Math.floor(Math.random() * data.drinks.length)];
+}
 
 
 //JUAN DRINK FUNCTION
