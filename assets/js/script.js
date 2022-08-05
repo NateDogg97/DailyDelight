@@ -31,33 +31,33 @@ function btnGO() {
     locationName = String(userInput.value);
     console.log(locationName);
 
-    // geocodingAPI(locationName); //UNCOMMENT AFTER DEV COMPLETE
+    geocodingAPI(locationName); //UNCOMMENT AFTER DEV COMPLETE
 
-    let icon = '';  //REMOVE THIS LINE AND NEXT AFTER DEV
-    ingredientAPI(icon); //For dev, bypass openweatherAPI chain entirely and just use CocktailDB
+    //let icon = '';  //REMOVE THIS LINE AND NEXT AFTER DEV
+    //ingredientAPI(icon); //For dev, bypass openweatherAPI chain entirely and just use CocktailDB
 };
 
 function geocodingAPI(locationName) {
     var LONGLATurl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + locationName + '&limit=1&appid=3b3319e2a4bdc403d7f45843c07de674';
-    
+
     //Write our fetch request function as an expression
     const geoData = fetch(LONGLATurl)
 
-    .then(function (response) {
-        return response.json();
-    })
+        .then(function (response) {
+            return response.json();
+        })
 
-    //We now have the LATITUDE and LOGITUDE of our city
-    .then((data) => {
-        console.log(data); //See the data from the Geocoding API
-        return [data[0].lat, data[0].lon];
-    });
+        //We now have the LATITUDE and LOGITUDE of our city
+        .then((data) => {
+            console.log(data); //See the data from the Geocoding API
+            return [data[0].lat, data[0].lon];
+        });
 
     //Takes those Coords and passes those coords to the current weather API
     const giveLongLats = () => {
         geoData.then((a) => {
             currentAPI(a[0], a[1]);
-            });
+        });
     };
 
     //Fires off the giveLongLats func
@@ -68,27 +68,27 @@ function geocodingAPI(locationName) {
 //Uses given Lat and Lon to tell current weather of that city
 function currentAPI(Lat, Lon) {
 
-    var currentURL = 'https://api.openweathermap.org/data/2.5/onecall?lat='+Lat+'&lon='+Lon+'&exclude=minutely,hourly,daily,alerts&appid=3b3319e2a4bdc403d7f45843c07de674';
+    var currentURL = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + Lat + '&lon=' + Lon + '&exclude=minutely,hourly,daily,alerts&appid=3b3319e2a4bdc403d7f45843c07de674';
 
     //Makes the fetch current weather function an expression that is manipulatable
     const cityWeather = fetch(currentURL)
 
         .then(function (response) {
             return response.json();
-    })
+        })
 
         //We now have the current weather data as the variable 'data'
         .then(function (data) {
             console.log(data); //See data from the OneCall API
             let theIcon = data.current.weather.icon; //From that data we can get a snapshot in the form of the weather icon
             return theIcon
-    });
+        });
 
     //Now we pass the weather icon to the ingredientAPI
     const passtoCocktailDB = () => {
         cityWeather.then((theIcon) => {
             ingredientAPI(theIcon);
-            });
+        });
     };
 
     passtoCocktailDB();
@@ -103,27 +103,27 @@ function ingredientAPI(icon) {
 
     var theIngredient;
 
-           if (icon === '01d'){
+    if (icon === '01d') {
         theIngredient = 'lime';
-    } else if (icon === '01n'){
+    } else if (icon === '01n') {
         theIngredient = 'bourbon';
-    } else if (icon === '02d'){
+    } else if (icon === '02d') {
         theIngredient = 'mint';
-    } else if (icon === '02n'){
+    } else if (icon === '02n') {
         theIngredient = 'soda_water';
-    } else if (icon === '03d' || '03n'){
+    } else if (icon === '03d' || '03n') {
         theIngredient = 'cranberry_juice';
-    } else if (icon === '04d' || '04n'){
+    } else if (icon === '04d' || '04n') {
         theIngredient = 'dark_rum';
-    } else if (icon === '09d' || '09n'){
+    } else if (icon === '09d' || '09n') {
         theIngredient = 'tonic_water';
-    } else if (icon === '10d' || '10n'){
+    } else if (icon === '10d' || '10n') {
         theIngredient = 'sugar';
-    } else if (icon === '11d' || '11n'){
+    } else if (icon === '11d' || '11n') {
         theIngredient = 'vodka';
-    } else if (icon === '13d' || '13n'){
+    } else if (icon === '13d' || '13n') {
         theIngredient = 'cinnamon';
-    } else if (icon === '50d' || '50n'){
+    } else if (icon === '50d' || '50n') {
         theIngredient = 'milk';
     } else {
         theIngredient = '';
@@ -132,67 +132,67 @@ function ingredientAPI(icon) {
     //Fetches data from the CocktailDB by searching by ingredient
     fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + theIngredient)
 
-    .then(data => data.json())
+        .then(data => data.json())
 
-    .then(function(data){
-        
-        for(var i = 0; i < 5; i++){
-            var tempDrink = data.drinks[Math.floor(Math.random()*data.drinks.length)];
-            console.log(tempDrink);
+        .then(function (data) {
 
-            if (drinkArray.indexOf(tempDrink) !== -1){
-                i--;
-            } else {
-                drinkArray.push(tempDrink);
-            }               
-        }
+            for (var i = 0; i < 5; i++) {
+                var tempDrink = data.drinks[Math.floor(Math.random() * data.drinks.length)];
+                console.log(tempDrink);
 
-        displayDrinks(drinkArray);                     
-    })
+                if (drinkArray.indexOf(tempDrink) !== -1) {
+                    i--;
+                } else {
+                    drinkArray.push(tempDrink);
+                }
+            }
 
-    .catch(err => console.error(err));
+            displayDrinks(drinkArray);
+        })
+
+        .catch(err => console.error(err));
 
 
 };
 
 function displayDrinks(drinkArray) {
-    for(var i = 0; i < 4; i++){
-        var el = document.querySelector('#img-' + (i+1));
-        var nameEl = document.querySelectorAll('.name-' + (i+1));
+    for (var i = 0; i < 4; i++) {
+        var el = document.querySelector('#img-' + (i + 1));
+        var nameEl = document.querySelectorAll('.name-' + (i + 1));
         el.setAttribute('src', drinkArray[i].strDrinkThumb);
         // displays title names
-        for(var x = 0; x < 2; x++){
+        for (var x = 0; x < 2; x++) {
             nameEl[x].textContent = drinkArray[i].strDrink;
         }
 
 
         // getting instructions
-        if(i == 0){
+        if (i == 0) {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
-                displayInstr(data, 0);
+                    displayInstr(data, 0);
                 })
-        } else if(i == 1){
+        } else if (i == 1) {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
-                displayInstr(data, 1);
+                    displayInstr(data, 1);
                 })
-        } else if(i == 2){
+        } else if (i == 2) {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
-                displayInstr(data, 2);
+                    displayInstr(data, 2);
                 })
         } else {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
-                displayInstr(data, 3);
+                    displayInstr(data, 3);
                 })
         }
-        
+
     }
 }
 
@@ -236,7 +236,7 @@ function infantAnnihilator(parent) {
 //Capitalizes the initial character of a string
 function capStr(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
-  };
+};
 
 //RANDOM NUMBER
 //Pass an array as an argument and you'll receive a random number bounnd by the array's length
