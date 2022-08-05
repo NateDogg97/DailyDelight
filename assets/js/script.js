@@ -12,6 +12,7 @@
 var button = document.getElementById('searchBtn');
 var userInput = document.getElementById('locSearch');
 var reshuffle = document.querySelector('.waves-effect.waves-light.btn-large');
+var instrEl = document.querySelectorAll('.instr');
 
 // ====================
 //   INITIALIZATIONS
@@ -32,7 +33,7 @@ function btnGO() {
 
     // geocodingAPI(locationName); //UNCOMMENT AFTER DEV COMPLETE
 
-    let icon = '01d';  //REMOVE THIS LINE AND NEXT AFTER DEV
+    let icon = '';  //REMOVE THIS LINE AND NEXT AFTER DEV
     ingredientAPI(icon); //For dev, bypass openweatherAPI chain entirely and just use CocktailDB
 };
 
@@ -154,15 +155,49 @@ function ingredientAPI(icon) {
 
 };
 
-var firstImgEl = document.querySelector('#img-1');
-var secondImgEl = document.querySelector('#img-2');
-var thirdImgEl = document.querySelector('#img-3');
-var fourthImgEl = document.querySelector('#img-4');
 function displayDrinks(drinkArray) {
     for(var i = 0; i < 4; i++){
         var el = document.querySelector('#img-' + (i+1));
+        var nameEl = document.querySelectorAll('.name-' + (i+1));
         el.setAttribute('src', drinkArray[i].strDrinkThumb);
+        // displays title names
+        for(var x = 0; x < 2; x++){
+            nameEl[x].textContent = drinkArray[i].strDrink;
+        }
+
+
+        // getting instructions
+        if(i == 0){
+            fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
+                .then(response => response.json())
+                .then(function (data) {
+                displayInstr(data, 0);
+                })
+        } else if(i == 1){
+            fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
+                .then(response => response.json())
+                .then(function (data) {
+                displayInstr(data, 1);
+                })
+        } else if(i == 2){
+            fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
+                .then(response => response.json())
+                .then(function (data) {
+                displayInstr(data, 2);
+                })
+        } else {
+            fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
+                .then(response => response.json())
+                .then(function (data) {
+                displayInstr(data, 3);
+                })
+        }
+        
     }
+}
+
+function displayInstr(data, i) {
+    instrEl[i].innerText = data.drinks[0].strInstructions;
 }
 
 //CONDITIONALS
@@ -212,39 +247,38 @@ function getRandomDrink(max) {
 
 //JUAN DRINK FUNCTION
 //Kept for posterity, several capabilities here we may wanna implement after acheiving MVP
-function getDrinks(data) {
+// function getDrinks(data) {
 
-    // INGREDIENTS BY WEATHER
-    // has ingredients sorted in groups by the main weather attributes
-    var rainIngr = ['Gin', 'vodka', 'Apple Juice'];
-    var snowIngr = ['Chocolate', 'Cocoa Powder', 'Eggnog'];
-    var clearIngr = ['Fruit', 'Honey', 'Lemonade'];
-    var cloudyIngr = ['Salt', 'Sour Mix', 'Sweet and Sour'];
-    var freezeNBelow = ['Ale','Apple'];
-    var ingrString = '';
-    console.log(data.current.weather[0].main);
-    // if main equals whatever main, it adds all the clearIngr ingredients to the ingredient string
-    if(data.current.weather[0].main == 'Clear'){
-        for(var i = 0; i < clearIngr.length; i++){
-            ingrString += clearIngr[i] + ',';
-        }
-    }
-    // if temperature <= 32, it adds all the freezeNBelow ingredients to the ingredient string
-    if(data.current.temp <= 32){
-        for(var i = 0; i < freezeNBelow.length; i++){
-            ingrString += freezeNBelow[i] + ',';
-        }
-    }
-    // deletes last comma at the end of string
-    var finalString = ingrString.slice(0,-1);
-    // displays, at most, 5 drinks with the chosen ingredient
-    fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + finalString)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            for(var i = 0; i < 5; i++){
-                console.log(data.drinks[Math.floor(Math.random()*data.drinks.length)]);
-            }
-        })
-};
+//     // INGREDIENTS BY WEATHER
+//     // has ingredients sorted in groups by the main weather attributes
+//     var rainIngr = ['Gin', 'vodka', 'Apple Juice'];
+//     var snowIngr = ['Chocolate', 'Cocoa Powder', 'Eggnog'];
+//     var clearIngr = ['Fruit', 'Honey', 'Lemonade'];
+//     var cloudyIngr = ['Salt', 'Sour Mix', 'Sweet and Sour'];
+//     var freezeNBelow = ['Ale','Apple'];
+//     var ingrString = '';
+//     console.log(data.current.weather[0].main);
+//     // if main equals whatever main, it adds all the clearIngr ingredients to the ingredient string
+//     if(data.current.weather[0].main == 'Clear'){
+//         for(var i = 0; i < clearIngr.length; i++){
+//             ingrString += clearIngr[i] + ',';
+//         }
+//     }
+//     // if temperature <= 32, it adds all the freezeNBelow ingredients to the ingredient string
+//     if(data.current.temp <= 32){
+//         for(var i = 0; i < freezeNBelow.length; i++){
+//             ingrString += freezeNBelow[i] + ',';
+//         }
+//     }
+//     // deletes last comma at the end of string
+//     var finalString = ingrString.slice(0,-1);
+//     // displays, at most, 5 drinks with the chosen ingredient
+//     fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + finalString)
+//         .then(function (response) {
+//             return response.json();
+//         })
+//         .then(function (data) {
+//             for(var i = 0; i < 5; i++){
+//                 console.log(data.drinks[Math.floor(Math.random()*data.drinks.length)]);
+//             }
+//         })

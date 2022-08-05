@@ -64,7 +64,7 @@ function recommendItem(icon) {
 
         .catch(err => console.error(err));
 
-    
+        
 };
 
 //===================
