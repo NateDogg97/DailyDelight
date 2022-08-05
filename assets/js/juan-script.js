@@ -11,7 +11,7 @@
 
 var button = document.getElementById('searchBtn');
 var userInput = document.getElementById('locSearch');
-
+var instrEl = document.querySelectorAll('.instr');
 // ====================
 //   INITIALIZATIONS
 // ==================== 
@@ -155,18 +155,37 @@ function displayDrinks(drinkArray) {
 
 
         // getting instructions
-        var instrEl = document.querySelectorAll('.instr');
-        const instruction = fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
-            .then(response => response.json())
-            .then(function (data) {
-               return data.drinks[0].strInstructions;
-            }) 
-        const instr = async() => {
-            const a = await instruction;
-            return a;
-        };
+        if(i == 0){
+            fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
+                .then(response => response.json())
+                .then(function (data) {
+                displayInstr(data, 0);
+                })
+        } else if(i == 1){
+            fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
+                .then(response => response.json())
+                .then(function (data) {
+                displayInstr(data, 1);
+                })
+        } else if(i == 2){
+            fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
+                .then(response => response.json())
+                .then(function (data) {
+                displayInstr(data, 2);
+                })
+        } else {
+            fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
+                .then(response => response.json())
+                .then(function (data) {
+                displayInstr(data, 3);
+                })
+        }
         
     }
+}
+
+function displayInstr(data, i) {
+    instrEl[i].innerText = data.drinks[0].strInstructions;
 }
 
 
