@@ -11,6 +11,7 @@
 
 var button = document.getElementById('searchBtn');
 var userInput = document.getElementById('locSearch');
+var reshuffle = document.querySelector('.waves-effect.waves-light.btn-large');
 
 // ====================
 //   INITIALIZATIONS
@@ -153,6 +154,17 @@ function ingredientAPI(icon) {
 
 };
 
+var firstImgEl = document.querySelector('#img-1');
+var secondImgEl = document.querySelector('#img-2');
+var thirdImgEl = document.querySelector('#img-3');
+var fourthImgEl = document.querySelector('#img-4');
+function displayDrinks(drinkArray) {
+    for(var i = 0; i < 4; i++){
+        var el = document.querySelector('#img-' + (i+1));
+        el.setAttribute('src', drinkArray[i].strDrinkThumb);
+    }
+}
+
 //CONDITIONALS
 //These variables make ingredientAPI work
 var clearSky = 'lime_juice'
@@ -171,6 +183,7 @@ var clearSkyNight = 'bourbon'
 
 //Search button gathers input field value and passes it into API Chain
 button.addEventListener('click', btnGO);
+reshuffle.addEventListener('click', btnGO);
 
 // ====================
 //      ASSIST FUNCs
