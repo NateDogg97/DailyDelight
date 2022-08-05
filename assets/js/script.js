@@ -97,31 +97,59 @@ function currentAPI(Lat, Lon) {
 //Takes the icon from weather API, turns that into a cocktail ingredient, then searches based on that ingredient
 function ingredientAPI(icon) {
 
+    var drinkArray = [];
+
     var theIngredient;
 
-    if (icon === '01d'){
+           if (icon === '01d'){
+        theIngredient = 'lime';
+    } else if (icon === '01n'){
+        theIngredient = 'bourbon';
+    } else if (icon === '02d'){
         theIngredient = 'mint';
-    };
+    } else if (icon === '02n'){
+        theIngredient = 'soda_water';
+    } else if (icon === '03d' || '03n'){
+        theIngredient = 'cranberry_juice';
+    } else if (icon === '04d' || '04n'){
+        theIngredient = 'dark_rum';
+    } else if (icon === '09d' || '09n'){
+        theIngredient = 'tonic_water';
+    } else if (icon === '10d' || '10n'){
+        theIngredient = 'sugar';
+    } else if (icon === '11d' || '11n'){
+        theIngredient = 'vodka';
+    } else if (icon === '13d' || '13n'){
+        theIngredient = 'cinnamon';
+    } else if (icon === '50d' || '50n'){
+        theIngredient = 'milk';
+    } else {
+        theIngredient = '';
+    }
 
     //Fetches data from the CocktailDB by searching by ingredient
     fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + theIngredient)
 
-	    .then(data => data.json())  
+    .then(data => data.json())
 
-        //Data is all drinks containing 'theIngredient'
-        .then(function(data){
-          
-            //Gives four random drinks out of all those drinks in data
-            for(var i = 0; i < 4; i++){
+    .then(function(data){
+        
+        for(var i = 0; i < 5; i++){
+            var tempDrink = data.drinks[Math.floor(Math.random()*data.drinks.length)];
+            console.log(tempDrink);
 
-                console.log(data.drinks[getRandomDrink(data.drinks.length)]);
-            }
+            if (drinkArray.indexOf(tempDrink) !== -1){
+                i--;
+            } else {
+                drinkArray.push(tempDrink);
+            }               
+        }
 
-            //return [data[choice].strDrink, data[choice].strDrinkThumb];
-        })
+        displayDrinks(drinkArray);                     
+    })
 
-        //Incase promises are unkept
-        .catch(err => console.error(err));
+    .catch(err => console.error(err));
+
 
 };
 

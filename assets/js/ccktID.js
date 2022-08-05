@@ -101,7 +101,7 @@ function ingredientAPI(icon) {
     //CONDITIONALS
     if (icon === '01d'){
         theIngredient = 'mint';
-    };
+    }; 
 
     //Fetches data from the CocktailDB by searching by ingredient
     fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + theIngredient)
