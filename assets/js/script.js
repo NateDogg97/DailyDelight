@@ -162,9 +162,8 @@ function displayDrinks(drinkArray) {
         el.setAttribute('src', drinkArray[i].strDrinkThumb);
         // displays title names
         for (var x = 0; x < 2; x++) {
-            nameEl[x].textContent = drinkArray[i].strDrink;
+            nameEl[x].innerHTML = drinkArray[i].strDrink + ' <i class="material-icons fa-solid fa-list right"></i>'; //<i class="material-icons fa-solid fa-list right"></i>
         }
-
 
         // getting instructions
         if (i == 0) {
