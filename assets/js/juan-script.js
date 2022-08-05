@@ -146,10 +146,15 @@ function displayDrinks(drinkArray) {
     for(var i = 0; i < 4; i++){
         var imgEl = document.querySelector('#img-' + (i+1));
         var nameEl = document.querySelectorAll('.name-' + (i+1));
+        // displays the image
         imgEl.setAttribute('src', drinkArray[i].strDrinkThumb);
+        // displays title names
         for(var x = 0; x < 2; x++){
             nameEl[x].textContent = drinkArray[i].strDrink;
         }
+
+
+        // getting instructions
         var instrEl = document.querySelectorAll('.instr');
         const instruction = fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
             .then(response => response.json())
