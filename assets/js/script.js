@@ -157,13 +157,18 @@ function ingredientAPI(icon) {
 
 function displayDrinks(drinkArray) {
     for (var i = 0; i < 4; i++) {
+        // DOM selectors for grabbing card elements
         var el = document.querySelector('#img-' + (i + 1));
-        var nameEl = document.querySelectorAll('.name-' + (i + 1));
+        var mainnameEl = document.querySelectorAll('.mainname-' + (i + 1));
+        var backnameEl = document.querySelectorAll('.backname-' + (i + 1));
+
+        // displays drink pics
         el.setAttribute('src', drinkArray[i].strDrinkThumb);
+
         // displays title names
-        for (var x = 0; x < 2; x++) {
-            nameEl[x].innerHTML = drinkArray[i].strDrink + ' <i class="material-icons fa-solid fa-list right"></i>'; //<i class="material-icons fa-solid fa-list right"></i>
-        }
+        mainnameEl[0].innerHTML = drinkArray[i].strDrink + ' <i class="material-icons fa-solid fa-list right"></i>';
+        backnameEl[0].innerHTML = drinkArray[i].strDrink + ' <i class="material-icons fa-solid fa-xmark-large right">x</i>';
+     
 
         // getting instructions
         if (i == 0) {
