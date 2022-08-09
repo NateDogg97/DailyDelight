@@ -172,8 +172,8 @@ function displayDrinks(drinkArray) {
     for (var i = 0; i < 4; i++) {
         // DOM selectors for grabbing card elements
         var el = document.querySelector('#img-' + (i + 1));
-        var mainnameEl = document.querySelectorAll('.mainname-' + (i + 1));
-        var backnameEl = document.querySelectorAll('.backname-' + (i + 1));
+        var mainnameEl = document.querySelectorAll('.name-' + (i + 1));
+        var backnameEl = document.querySelectorAll('.name-' + (i + 1));
 
         // displays drink pics
         el.setAttribute('src', drinkArray[i].strDrinkThumb);
