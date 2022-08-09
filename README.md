@@ -5,21 +5,17 @@ This is the README.md for the Team Runtime-Terror's Project One titled: <i>Daily
 
 From scratch we are to build a website utilizing two third-party APIs.
 
-View our criteria.
-
 We are making an app that recommends drinks based on the local weather conditions.
-
-View our proposal.
 
 ## HOW TO:
 
-TBD
+Search your city by name in the side bar. Your local weather will be run through our proprietary hyper-detailed algorithm to give you the perfect cocktail for those weather conditions!
 
 ## SCREENSHOT:
-TBD
+<img src='.\assets\Images\dd-scrnsht.png' alt='A screenshot of the website'/>
 
 ## VISIT:
-TBD
+Click <a href="https://natedogg97.github.io/DailyDelight/" target="_blank">here</a> to find out what to make tonight!
 
 ## CREDIT:
 Team Runtime-Terror is:
