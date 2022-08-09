@@ -227,25 +227,25 @@ function displayDrinks(drinkArray) {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
-                    displayInstr(data, 0);
+                    displayDetails(data, 0);
                 })
         } else if (i == 1) {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
-                    displayInstr(data, 1);
+                    displayDetails(data, 1);
                 })
         } else if (i == 2) {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
-                    displayInstr(data, 2);
+                    displayDetails(data, 2);
                 })
         } else {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
-                    displayInstr(data, 3);
+                    displayDetails(data, 3);
                 })
         }
 
@@ -254,9 +254,27 @@ function displayDrinks(drinkArray) {
 
 //DISPLAY-RECIPE-DETAILS
 //For each card, take that drinks details and change that card's backside text into our generated string
-function displayInstr(data, i) {
-    instrEl[i].innerText = data.drinks[0].strInstructions;
+function displayDetails(data, i) {
+
+    var targetData = data.drinks[0];
+
+    // console.log(targetData); //See the extended drink details, e.g. instructions or ingredients
+
+    var allDrinkText = "";
+
+    for (let m = 1; m < 15; m++) {
+        
+        if (targetData['strMeasure'+m] !== null && targetData['strMeasure'+m] !== 'Add ') {
+            allDrinkText = allDrinkText.concat("Add ", targetData['strMeasure'+m], " of ",targetData['strIngredient'+m], " \n ");
+        } else if (targetData['strIngredient'+m] !== null) {
+            allDrinkText = allDrinkText.concat("+ ",targetData['strIngredient'+m], " \n ");
+        }
+    }
+
+    allDrinkText = allDrinkText.concat(targetData.strInstructions);
+    instrEl[i].innerText = allDrinkText;
 }
+
 
 // ====================
 //      EVENT LISTENERS
