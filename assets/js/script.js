@@ -14,17 +14,27 @@ var userInput = document.getElementById('locSearch');
 var reshuffle = document.querySelector('.waves-effect.waves-light.btn-large');
 var instrEl = document.querySelectorAll('.instr');
 var checked = document.getElementsByClassName('filled-in');
-var allergiesArray = [];
 
 // ====================
 //   INITIALIZATIONS
 // ==================== 
 
 var locationName;
+var allergiesArray = [];
 
 // ====================
 //      FUNCTIONS
 // ====================
+
+//CHECKBOXES
+// Value of checked checkbox gets added to a total allergy array initialized at top of script
+function checkBoxes(){
+    for (i=0; i<checked.length; i++){
+        if (checked[i].checked){
+            allergiesArray.push(checked[i].nextElementSibling.textContent)
+        }
+    }
+};
 
 //BTN-GO
 //Search Button Calls this function which begins the API Chain
@@ -39,6 +49,8 @@ function btnGO() {
 
 };
 
+//GEOCODING-API
+//User input is passed inside and the longitude and latitude for that city is given and passed into the weather API
 function geocodingAPI(locationName) {
     var LONGLATurl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + locationName + '&limit=1&appid=3b3319e2a4bdc403d7f45843c07de674';
 
@@ -102,31 +114,34 @@ function currentAPI(Lat, Lon) {
 //Takes the icon from weather API, turns that into a cocktail ingredient, then searches based on that ingredient
 function ingredientAPI(icon) {
 
+    //array of all drinks that 1) Are not already added 2) dont have allergen in their ingredients
     var drinkArray = [];
 
+    // === Conditionals ===
+    //Turns weatherAPI input (e.g. '09d') into an ingredient to search by)
     var theIngredient;
 
-    if (icon === '01d') {
+    if (icon == '01d') {                   //clear day
         theIngredient = 'lime';
-    } else if (icon === '01n') {
+    } else if (icon == '01n') {            //clear night
         theIngredient = 'bourbon';
-    } else if (icon === '02d') {
+    } else if (icon == '02d') {            //few clouds day
         theIngredient = 'mint';
-    } else if (icon === '02n') {
+    } else if (icon == '02n') {            //few clouds night
         theIngredient = 'soda_water';
-    } else if (icon === '03d' || '03n') {
+    } else if (icon == '03d' || '03n') {   //scattered clouds (day&night)
         theIngredient = 'cranberry_juice';
-    } else if (icon === '04d' || '04n') {
+    } else if (icon == '04d' || '04n') {   //broken clouds (day&night)
         theIngredient = 'dark_rum';
-    } else if (icon === '09d' || '09n') {
+    } else if (icon == '09d' || '09n') {   //rain shower (day&night)
         theIngredient = 'tonic_water';
-    } else if (icon === '10d' || '10n') {
+    } else if (icon == '10d' || '10n') {   //rain (day&night)
         theIngredient = 'sugar';
-    } else if (icon === '11d' || '11n') {
+    } else if (icon == '11d' || '11n') {   //thunderstorm (day&night)
         theIngredient = 'vodka';
-    } else if (icon === '13d' || '13n') {
+    } else if (icon == '13d' || '13n') {   //snow (day&night)
         theIngredient = 'cinnamon';
-    } else if (icon === '50d' || '50n') {
+    } else if (icon == '50d' || '50n') {   //mist (day&night)
         theIngredient = 'milk';
     } else {
         theIngredient = '';
@@ -137,20 +152,28 @@ function ingredientAPI(icon) {
 
         .then(data => data.json())
 
+        //data here contains every drink made with 'theIngredient'
         .then(function (data) {
 
-            for (var i = 0; i < 5; i++) {
-                var tempDrink = data.drinks[Math.floor(Math.random() * data.drinks.length)];
-                console.log(tempDrink);
-                var drinkId = data.drinks[0].idDrink;
+            //we want four drinks out of 'data'
+            for (var i = 0; i < 4; i++) {
 
-                fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkId)
+                //we want those four drinks to be randomly selected
+                var tempDrink = data.drinks[Math.floor(Math.random() * data.drinks.length)];
+
+                //console.log(tempDrink); //See the random drink selected out of our data pool
+
+                // === Allergen Testing ===
+                //Take the temp drink's id... 
+                var tempdrinkId = data.drinks[0].idDrink;
+                fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + tempdrinkId)
 
                 .then(resp => resp.json())
                 .then(function (resp) {
 
-                    console.log(resp.drinks[0].strIngredient1)
+                    //console.log(resp.drinks[0].strIngredient1) //See that temp drink's ingredients
 
+                    //...and get it's ingredients to compare to our allergen array
                     if ( // ====================================================================                         
                         allergiesArray.indexOf(resp.drinks[0].strIngredient1) !== -1 ||
                         allergiesArray.indexOf(resp.drinks[0].strIngredient2) !== -1 ||
@@ -172,6 +195,8 @@ function ingredientAPI(icon) {
 
                 })
 
+                // === Repeat Drink Testing ===
+                //make sure tempDrink has not already been randomly selected and pushed to drinkArray
                 if (drinkArray.indexOf(tempDrink) !== -1) {
                     i--;
                 } else {
@@ -179,6 +204,9 @@ function ingredientAPI(icon) {
                 }
             }
 
+            console.log(drinkArray) //See the four random, non-repeating, non-allergen-containing, drinks
+
+            //take completed drinkArray, with four rando drinks, and pass it into the displayDrinks function
             displayDrinks(drinkArray);
         })
 
@@ -186,16 +214,8 @@ function ingredientAPI(icon) {
 
 };
 
-// Adding functionality to the allergy checkboxes
-
-function checkBoxes(){
-    for (i=0; i<checked.length; i++){
-        if (checked[i].checked){
-            allergiesArray.push(checked[i].nextElementSibling.textContent)
-        }
-    }
-}
-
+//DISPLAY-DRINKS
+//Takes our four random drinks containing theIngredient and displays them in the four cards
 function displayDrinks(drinkArray) {
     for (var i = 0; i < 4; i++) {
         // DOM selectors for grabbing card elements
@@ -212,7 +232,7 @@ function displayDrinks(drinkArray) {
         backnameEl[0].innerHTML = drinkArray[i].strDrink + ' <i class="material-icons fa-solid fa-xmark-large right">x</i>';
      
 
-        // getting instructions
+        // gathers each drinks extended details including ingredients, measures of ingredients, and instructions to make
         if (i == 0) {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
@@ -242,21 +262,11 @@ function displayDrinks(drinkArray) {
     }
 }
 
+//DISPLAY-RECIPE-DETAILS
+//For each card, take that drinks details and change that card's backside text into our generated string
 function displayInstr(data, i) {
     instrEl[i].innerText = data.drinks[0].strInstructions;
 }
-
-//CONDITIONALS
-//These variables make ingredientAPI work
-var clearSky = 'lime_juice'
-var clearSkyNight = 'bourbon'
-
-
-//COCKTAIL-ID-API
-//Takes the ID from the ingredient API and gives back all the drink details
-// function cocktailAPI(ID) {
-// }
-
 
 // ====================
 //      EVENT LISTENERS
@@ -270,7 +280,7 @@ reshuffle.addEventListener('click', btnGO);
 //      ASSIST FUNCs
 // ====================
 
-//INFANT ANNIHILATOR
+//INFANT-ANNIHILATOR
 //Removes all children from a node
 function infantAnnihilator(parent) {
     while (parent.firstChild) {
