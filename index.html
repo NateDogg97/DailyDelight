@@ -33,7 +33,7 @@
           ><i class="fa-solid fa-martini-glass-citrus right"></i>Daily
           Delight</a >
            <!-- Modal that pops up when at the beginning --> 
-      <input type="button" value = "Click here if you are 21" onclick="alert('Are you sure that you are 21?');" />
+      
       </div>
 
     </nav>
@@ -46,13 +46,24 @@
             type="text"
             class="form-control"
             id="locSearch"
-            placeholder="What City You In?"
+            placeholder="What City Are You In?"
             aria-label="CityToSearch"
           />
           <div class="px-3 mt-3">
-            <button type="button" class="btn btn-block" id="searchBtn">
+            <input type="button" id="mdl" value = "Click here if you are 21" onclick="alert('Are you sure that you are 21?');" />
+            <button type="button" class="btn btn-block default" id="searchBtn">
               Ready 4 Booze
             </button>
+            <div id="current-weather">
+                <div id="day" class="teal">
+                    <h2><span id="city-name"></span></h2>
+                    <h3 class="weather"><span id="weather"></span></h3>
+                    <img id="day-icon" src="">
+                    <h3>Temp: <span id="temp"></span>℉</h3>
+                    <h3>Wind: <span id="wind"></span> MPH</h3>
+                    <h3>Humidity: <span id="humidity"></span>%</h3>
+                </div>
+              </div>
           </div>
           <img class="col s11 logo" src="./assets/Images/Logo.jpg" />
         </div>
@@ -104,16 +115,7 @@
             </p>
           </form>
         </div>
-        <div id="current-weather">
-          <div id="day" class="teal">
-              <h2><span id="city-name"></span></h2>
-              <h3 class="weather"><span id="weather"></span></h3>
-              <img id="day-icon" src="">
-              <h3>Temp: <span id="temp"></span>℉</h3>
-              <h3>Wind: <span id="wind"></span> MPH</h3>
-              <h3>Humidity: <span id="humidity"></span>%</h3>
-          </div>
-        </div>
+        
       </div>
 
       <div class="col s9">

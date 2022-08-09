@@ -11,7 +11,7 @@
     }
 
     function custom_alert(alert_message) {
-
+        
         /* You can utilize the web page address
          * for the alert message by doing the following:
 
@@ -72,11 +72,11 @@
 
         // Add an event listener that'll close the
         // custom alert
-        ok_button.addEventListener("click", function () {
+        ok_button.addEventListener("click", function () { 
             remove_custom_alert();
         }, false);
     }
-
+    
     function remove_custom_alert() {
         let HTML_body = document.querySelector("body");
         let alert_container = document.getElementById("alert_container");
