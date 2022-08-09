@@ -11,7 +11,15 @@
 
 var button = document.getElementById('searchBtn');
 var userInput = document.getElementById('locSearch');
+var reshuffle = document.querySelector('.waves-effect.waves-light.btn-large');
 var instrEl = document.querySelectorAll('.instr');
+var resultEl = document.querySelector('#result');
+var dayIconEl = document.querySelector('#day-icon');
+var tempEl = document.querySelector('#temp');
+var windEl = document.querySelector('#wind');
+var humidityEl = document.querySelector('#humidity');
+
+
 // ====================
 //   INITIALIZATIONS
 // ==================== 
@@ -29,158 +37,179 @@ function btnGO() {
     locationName = String(userInput.value);
     console.log(locationName);
 
+    geocodingAPI(locationName); //UNCOMMENT AFTER DEV COMPLETE
+
+    //let icon = '';  //REMOVE THIS LINE AND NEXT AFTER DEV
+    //ingredientAPI(icon); //For dev, bypass openweatherAPI chain entirely and just use CocktailDB
+};
+
+function geocodingAPI(locationName) {
     var LONGLATurl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + locationName + '&limit=1&appid=3b3319e2a4bdc403d7f45843c07de674';
-    
+
+    //Write our fetch request function as an expression
     const geoData = fetch(LONGLATurl)
 
-    .then(function (response) {
-        return response.json();
-    })
+        .then(function (response) {
+            return response.json();
+        })
 
-    //We now have the LATITUDE and LOGITUDE of our city
-    .then((data) => {
-        console.log(data); //See the data from the Geocoding API
-        return [data[0].lat, data[0].lon];
-    });
+        //We now have the LATITUDE and LOGITUDE of our city
+        .then((data) => {
+            console.log(data); //See the data from the Geocoding API
+            return [data[0].lat, data[0].lon];
+        });
 
-    //Takes those Coords and passes them into the two APIs for display on the site
+    //Takes those Coords and passes those coords to the current weather API
     const giveLongLats = () => {
         geoData.then((a) => {
-            // Call a function to update cityBox and make a history button 
             currentAPI(a[0], a[1]);
-            });
+        });
     };
 
     //Fires off the giveLongLats func
     giveLongLats();
-
 };
 
 //CURRENT-WEATHER-API
 //Uses given Lat and Lon to tell current weather of that city
 function currentAPI(Lat, Lon) {
 
-    var currentURL = 'https://api.openweathermap.org/data/2.5/onecall?lat='+Lat+'&lon='+Lon+'&exclude=minutely,hourly,daily,alerts&appid=3b3319e2a4bdc403d7f45843c07de674';
+    var currentURL = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + Lat + '&lon=' + Lon + '&exclude=minutely,hourly,daily,alerts&units=imperial&appid=3b3319e2a4bdc403d7f45843c07de674';
 
-    const blah = fetch(currentURL)
+    //Makes the fetch current weather function an expression that is manipulatable
+    const cityWeather = fetch(currentURL)
 
         .then(function (response) {
             return response.json();
-    })
+        })
 
+        //We now have the current weather data as the variable 'data'
         .then(function (data) {
-            console.log(data);
-            // let theIcon = data.current.weather.icon;
-            let theIcon = '01d';
-            return theIcon
-    });
+            console.log(data); //See data from the OneCall API
+            return data;
+        });
 
-    const doNatesFunc = () => {
-        blah.then((theIcon) => {
-            // Call a function to update cityBox and make a history button 
-            recommendItem(theIcon);
-            });
+    //Now we pass the weather icon to the ingredientAPI
+    const passtoCocktailDB = () => {
+        cityWeather.then((data) => {
+            ingredientAPI(data);
+            showWeather(data);
+        });
     };
 
-    doNatesFunc();
+    passtoCocktailDB();
 
 };
 
-// ====================
-//      EVENT LISTENERS
-// ====================
+function showWeather(data) {
+    dayIconEl.setAttribute('src', 'http://openweathermap.org/img/wn/' + data.current.weather[0].icon + '@2x.png');
+    tempEl.innerText = data.current.temp;
+    windEl.innerText = data.current.wind_speed;
+    humidityEl.innerText = data.current.humidity;
+}
 
-//Search button gathers input field value and passes it into API Chain
-button.addEventListener('click', btnGO);
+//COCKTAIL-INGREDIENT-API
+//Takes the icon from weather API, turns that into a cocktail ingredient, then searches based on that ingredient
+function ingredientAPI(data) {
 
-// Example of a variable we can use to filter the fetch Url //
-// The advantage of using a variable like this is the we can code functions that
-// alter the value of this variable to fit the user's prefernces //
-var clearSky = 'ice%2Clime_juice'
-var clearSkyNight = 'bourbon'
-
-function getRandomDrink(max) {
-    return Math.floor(Math.random() * max);
-};
-
-const options = {
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': '7d2a540bc0mshf6af0c1a2ca6a06p12ec6cjsn89fc7b5edd84',
-		'X-RapidAPI-Host': 'the-cocktail-db.p.rapidapi.com'
-	}
-};
-
-function recommendItem(icon) {
     var drinkArray = [];
-    if (icon === '01d'){
+    let icon = data.current.weather.icon; //From that data we can get a snapshot in the form of the weather icon
+    var theIngredient;
 
-      fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i='+clearSkyNight)
-                                                        // Filter is here //
-        // An opportunity for added complexity lies in the way we filter the response //
-	    .then(data => data.json())
-	    // .then(response => console.log(response))
+    if (icon === '01d') {
+        theIngredient = 'lime';
+    } else if (icon === '01n') {
+        theIngredient = 'bourbon';
+    } else if (icon === '02d') {
+        theIngredient = 'mint';
+    } else if (icon === '02n') {
+        theIngredient = 'soda_water';
+    } else if (icon === '03d' || '03n') {
+        theIngredient = 'cranberry_juice';
+    } else if (icon === '04d' || '04n') {
+        theIngredient = 'dark_rum';
+    } else if (icon === '09d' || '09n') {
+        theIngredient = 'tonic_water';
+    } else if (icon === '10d' || '10n') {
+        theIngredient = 'sugar';
+    } else if (icon === '11d' || '11n') {
+        theIngredient = 'vodka';
+    } else if (icon === '13d' || '13n') {
+        theIngredient = 'cinnamon';
+    } else if (icon === '50d' || '50n') {
+        theIngredient = 'milk';
+    } else {
+        theIngredient = '';
+    }
 
-        // This chooses a random drink from the list of drinks returned from the cocktail API
-        .then(function(data){
-            
-            for(var i = 0; i < 5; i++){
-                var tempDrink = data.drinks[Math.floor(Math.random()*data.drinks.length)];
+    //Fetches data from the CocktailDB by searching by ingredient
+    fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + theIngredient)
+
+        .then(data => data.json())
+
+        .then(function (data) {
+
+            for (var i = 0; i < 5; i++) {
+                var tempDrink = data.drinks[Math.floor(Math.random() * data.drinks.length)];
                 console.log(tempDrink);
-                drinkArray.push(tempDrink);
+
+                if (drinkArray.indexOf(tempDrink) !== -1) {
+                    i--;
+                } else {
+                    drinkArray.push(tempDrink);
+                }
             }
-            var choice = getRandomDrink(data.drinks.length);
-            
-        // The goal here is to return the drink name and image from the API so we can use it somewhere else
+
             displayDrinks(drinkArray);
         })
 
         .catch(err => console.error(err));
 
-    }
+
 };
 
 function displayDrinks(drinkArray) {
-    var instructionArray = [];
-    var t = '';
-    for(var i = 0; i < 4; i++){
-        var imgEl = document.querySelector('#img-' + (i+1));
-        var nameEl = document.querySelectorAll('.name-' + (i+1));
-        // displays the image
-        imgEl.setAttribute('src', drinkArray[i].strDrinkThumb);
-        // displays title names
-        for(var x = 0; x < 2; x++){
-            nameEl[x].textContent = drinkArray[i].strDrink;
-        }
+    for (var i = 0; i < 4; i++) {
+        // DOM selectors for grabbing card elements
+        var el = document.querySelector('#img-' + (i + 1));
+        var mainnameEl = document.querySelectorAll('.mainname-' + (i + 1));
+        var backnameEl = document.querySelectorAll('.backname-' + (i + 1));
 
+        // displays drink pics
+        el.setAttribute('src', drinkArray[i].strDrinkThumb);
+
+        // displays title names
+        mainnameEl[0].innerHTML = drinkArray[i].strDrink + ' <i class="material-icons fa-solid fa-list right"></i>';
+        backnameEl[0].innerHTML = drinkArray[i].strDrink + ' <i class="material-icons fa-solid fa-xmark-large right">x</i>';
+     
 
         // getting instructions
-        if(i == 0){
+        if (i == 0) {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
-                displayInstr(data, 0);
+                    displayInstr(data, 0);
                 })
-        } else if(i == 1){
+        } else if (i == 1) {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
-                displayInstr(data, 1);
+                    displayInstr(data, 1);
                 })
-        } else if(i == 2){
+        } else if (i == 2) {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
-                displayInstr(data, 2);
+                    displayInstr(data, 2);
                 })
         } else {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
-                displayInstr(data, 3);
+                    displayInstr(data, 3);
                 })
         }
-        
+
     }
 }
 
@@ -188,57 +217,85 @@ function displayInstr(data, i) {
     instrEl[i].innerText = data.drinks[0].strInstructions;
 }
 
+//CONDITIONALS
+//These variables make ingredientAPI work
+var clearSky = 'lime_juice'
+var clearSkyNight = 'bourbon'
 
 
-function getDrinks(data) {
-    console.log(data);
-    // INGREDIENTS BY TEMP
-    // var temp = data.current.temp;
-    // var ingredients = '';
-    // if(temp > 80) {
-    //     ingredients += 'ice';
-    // }
-    // fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + ingredients)
-    //     .then(function (response) {
-    //         return response.json();
-    //     })
-    //     .then(function (data) {
-    //         for(var i = 0; i < 5; i++){
-    //             console.log(data.drinks[Math.floor(Math.random()*data.drinks.length)]);
-    //         }
-    //     })
+//COCKTAIL-ID-API
+//Takes the ID from the ingredient API and gives back all the drink details
+// function cocktailAPI(ID) {
+// }
 
-    // INGREDIENTS BY WEATHER
-    // has ingredients sorted in groups by the main weather attributes
-    var rainIngr = ['Gin', 'vodka', 'Apple Juice'];
-    var snowIngr = ['Chocolate', 'Cocoa Powder', 'Eggnog'];
-    var clearIngr = ['Fruit', 'Honey', 'Lemonade'];
-    var cloudyIngr = ['Salt', 'Sour Mix', 'Sweet and Sour'];
-    var freezeNBelow = ['Ale','Apple'];
-    var ingrString = '';
-    console.log(data.current.weather[0].main);
-    // if main equals whatever main, it adds all the clearIngr ingredients to the ingredient string
-    if(data.current.weather[0].main == 'Clear'){
-        for(var i = 0; i < clearIngr.length; i++){
-            ingrString += clearIngr[i] + ',';
-        }
+
+// ====================
+//      EVENT LISTENERS
+// ====================
+
+//Search button gathers input field value and passes it into API Chain
+button.addEventListener('click', btnGO);
+reshuffle.addEventListener('click', btnGO);
+
+// ====================
+//      ASSIST FUNCs
+// ====================
+
+//INFANT ANNIHILATOR
+//Removes all children from a node
+function infantAnnihilator(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
     }
-    // if temperature <= 32, it adds all the freezeNBelow ingredients to the ingredient string
-    if(data.current.temp <= 32){
-        for(var i = 0; i < freezeNBelow.length; i++){
-            ingrString += freezeNBelow[i] + ',';
-        }
-    }
-    // deletes last comma at the end of string
-    var finalString = ingrString.slice(0,-1);
-    // displays, at most, 5 drinks with the chosen ingredient
-    fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + finalString)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            for(var i = 0; i < 5; i++){
-                console.log(data.drinks[Math.floor(Math.random()*data.drinks.length)]);
-            }
-        })
-}
+};
+
+//CAPITALIZE
+//Capitalizes the initial character of a string
+function capStr(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+//RANDOM NUMBER
+//Pass an array as an argument and you'll receive a random number bounnd by the array's length
+function getRandomDrink(max) {
+    return Math.floor(Math.random() * max);
+};
+
+
+//JUAN DRINK FUNCTION
+//Kept for posterity, several capabilities here we may wanna implement after acheiving MVP
+// function getDrinks(data) {
+
+//     // INGREDIENTS BY WEATHER
+//     // has ingredients sorted in groups by the main weather attributes
+//     var rainIngr = ['Gin', 'vodka', 'Apple Juice'];
+//     var snowIngr = ['Chocolate', 'Cocoa Powder', 'Eggnog'];
+//     var clearIngr = ['Fruit', 'Honey', 'Lemonade'];
+//     var cloudyIngr = ['Salt', 'Sour Mix', 'Sweet and Sour'];
+//     var freezeNBelow = ['Ale','Apple'];
+//     var ingrString = '';
+//     console.log(data.current.weather[0].main);
+//     // if main equals whatever main, it adds all the clearIngr ingredients to the ingredient string
+//     if(data.current.weather[0].main == 'Clear'){
+//         for(var i = 0; i < clearIngr.length; i++){
+//             ingrString += clearIngr[i] + ',';
+//         }
+//     }
+//     // if temperature <= 32, it adds all the freezeNBelow ingredients to the ingredient string
+//     if(data.current.temp <= 32){
+//         for(var i = 0; i < freezeNBelow.length; i++){
+//             ingrString += freezeNBelow[i] + ',';
+//         }
+//     }
+//     // deletes last comma at the end of string
+//     var finalString = ingrString.slice(0,-1);
+//     // displays, at most, 5 drinks with the chosen ingredient
+//     fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + finalString)
+//         .then(function (response) {
+//             return response.json();
+//         })
+//         .then(function (data) {
+//             for(var i = 0; i < 5; i++){
+//                 console.log(data.drinks[Math.floor(Math.random()*data.drinks.length)]);
+//             }
+//         })
