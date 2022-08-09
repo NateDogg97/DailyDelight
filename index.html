@@ -1,88 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"
+    />
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
-        integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="./assets/css/style.css">
-
-    <link rel="icon" href="./assets/images/RT.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/resources/demos/style.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+      integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="icon" href="./assets/images/RT.ico" type="image/x-icon" />
     <title>Daily Delight</title>
-</head>
-
-<body>
+  </head>
     <nav>
-        <div class="nav-wrapper teal darken-2">
-            <a href="#" class="brand-logo center teal darken-2"><i class="fa-solid fa-martini-glass-citrus right"></i>Daily Delight</a>
-        </div>
+      <div class="nav-wrapper teal darken-2">
+        <a href="#" class="brand-logo center teal darken-2"
+          ><i class="fa-solid fa-martini-glass-citrus right"></i>Daily
+          Delight</a >
+           <!-- Modal that pops up when at the beginning --> 
+      <input type="button" value = "Click here if you are 21" onclick="alert('Are you sure that you are 21?');" />
+      </div>
+
     </nav>
     <div class="row">
-
-        <div class="col s3">
-            <!-- Quick Input and Button -->
-            <div>
-                <h5>Search for a City:</h5>
-                <input type="text" class="form-control" id="locSearch" placeholder="What City You In?" aria-label="CityToSearch"> 
-                <div class="px-3 mt-3">
-                  <button type="button" class="btn btn-block" id="searchBtn">Ready 4 Booze</button>
-                </div>
-                <img class="col s11 logo" src="./assets/Images/Logo.jpg">
-            </div>
-            <!--Checkboxes for allergies-->
-            <div>
-                <h6>Check any allergies:</h6>
-            <form action="#">
-                <p>
-                  <label>
-                    <input type="checkbox" class="filled-in" />
-                    <span>Dairy</span>
-                  </label>
-                </p>
-                <p>
-                    <label>
-                      <input type="checkbox" class="filled-in" />
-                      <span>Eggs</span>
-                    </label>
-                  </p>
-                  <p>
-                    <label>
-                      <input type="checkbox" class="filled-in" />
-                      <span>Wheat</span>
-                    </label>
-                  </p>
-                  <p>
-                    <label>
-                      <input type="checkbox" class="filled-in" />
-                      <span>Grapefruit</span>
-                    </label>
-                  </p>
-                  <p>
-                    <label>
-                      <input type="checkbox" class="filled-in" />
-                      <span>Grapes</span>
-                    </label>
-                  </p>
-                  <p>
-                    <label>
-                      <input type="checkbox" class="filled-in" />
-                      <span>Nuts</span>
-                    </label>
-                  </p>
-                  <p>
-                    <label>
-                      <input type="checkbox" class="filled-in" />
-                      <span>Gluten</span>
-                    </label>
-                  </p>
-            </form>
-            </div>
+      <div class="col s3">
+        <!-- Quick Input and Button -->
+        <div>
+          <h5>Search for a City:</h5>
+          <input
+            type="text"
+            class="form-control"
+            id="locSearch"
+            placeholder="What City You In?"
+            aria-label="CityToSearch"
+          />
+          <div class="px-3 mt-3">
+            <button type="button" class="btn btn-block" id="searchBtn">
+              Ready 4 Booze
+            </button>
+          </div>
+          <img class="col s11 logo" src="./assets/Images/Logo.jpg" />
         </div>
+        <!--Checkboxes for allergies-->
+        <div>
+          <h6>Check any allergies:</h6>
+          <form action="#">
+            <p>
+              <label>
+                <input type="checkbox" class="filled-in" />
+                <span>Dairy</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" class="filled-in" />
+                <span>Eggs</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" class="filled-in" />
+                <span>Wheat</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" class="filled-in" />
+                <span>Grapefruit</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" class="filled-in" />
+                <span>Grapes</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" class="filled-in" />
+                <span>Nuts</span>
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="checkbox" class="filled-in" />
+                <span>Gluten</span>
+              </label>
+            </p>
+          </form>
+        </div>
+      </div>
 
+      <div class="col s9">
+        <!-- Teal page content  -->
+        <div class="row">
+          <!--Recipe Card 1-->
+          <div class="col s6">
+            <div class="card z-depth-5">
+              <div class="card-image waves-effect waves-block waves-light">
+                <img
+                  class="activator"
+                  id="img-1"
+                  src="./assets/images/office.jpg"
+                />
+              </div>
+              <div class="card-content hoverable teal lighten-4">
+                <span
+                  class="card-title activator grey-text text-darken-4 mainname-1"
+                  >Card Title<i
+                    class="material-icons fa-solid fa-list right"
+                  ></i
+                ></span>
+              </div>
+              <!--Card is clickable to expand and show recipe-->
+              <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4 backname-1"
+                  >Card Title<i
+                    class="material-icons fa-solid fa-xmark-large right"
+                    >x</i
+                  ></span
+                >
+                <p class="instr">
+                  Here is some more information about this product that is only
+                  revealed once clicked on.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!--Recipe Card 2-->
+          <div class="col s6">
+            <div class="card z-depth-5">
+              <div class="card-image waves-effect waves-block waves-light">
+                <img
+                  class="activator"
+                  id="img-2"
+                  src="./assets/images/office.jpg"
+                />
+              </div>
+              <div class="card-content hoverable teal lighten-4">
+                <span
+                  class="card-title activator grey-text text-darken-4 mainname-2"
+                  >Card Title<i
+                    class="material-icons fa-solid fa-list right"
+                  ></i
+                ></span>
+              </div>
+              <!--Card is clickable to expand and show recipe-->
+              <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4 backname-2"
+                  >Card Title<i
+                    class="material-icons fa-solid fa-xmark-large right"
+                    >x</i
+                  ></span
+                >
+                <p class="instr">
+                  Here is some more information about this product that is only
+                  revealed once clicked on.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="col s9">
             <!-- Teal page content  -->
             <div class="row">
@@ -173,15 +266,23 @@
                     <a class="waves-effect waves-light btn-large"><i class="fa-solid fa-shuffle right"></i>Reshuffle</a>
                 </div>
             </div>
+          </div>
+          <div class="col s12">
+            <!--Button to shuffle new results-->
+            <a class="waves-effect waves-light btn-large"
+              ><i class="fa-solid fa-shuffle right"></i>Reshuffle</a
+            >
+          </div>
         </div>
-
+      </div>
     </div>
+   
 
     <!-- The Materialize Script  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <!-- Main JavaScript Code  -->
     <script src="./assets/js/script.js"></script>
-</body>
-
+    
+  </body>
 </html>
