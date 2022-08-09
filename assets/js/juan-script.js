@@ -18,6 +18,7 @@ var dayIconEl = document.querySelector('#day-icon');
 var tempEl = document.querySelector('#temp');
 var windEl = document.querySelector('#wind');
 var humidityEl = document.querySelector('#humidity');
+var cityNameEl = document.querySelector('#city-name');
 
 
 // ====================
@@ -56,6 +57,7 @@ function geocodingAPI(locationName) {
         //We now have the LATITUDE and LOGITUDE of our city
         .then((data) => {
             console.log(data); //See the data from the Geocoding API
+            showWeather(data, 0);
             return [data[0].lat, data[0].lon];
         });
 
@@ -93,7 +95,7 @@ function currentAPI(Lat, Lon) {
     const passtoCocktailDB = () => {
         cityWeather.then((data) => {
             ingredientAPI(data);
-            showWeather(data);
+            showWeather(data, 1);
         });
     };
 
@@ -101,10 +103,15 @@ function currentAPI(Lat, Lon) {
 
 };
 
-function showWeather(data) {
+function showWeather(data , x) {
+    dayIconEl.style.display = 'block';
+    if (x === 0) {
+        cityNameEl.innerText = data[0].name;
+        return;
+    }
     dayIconEl.setAttribute('src', 'http://openweathermap.org/img/wn/' + data.current.weather[0].icon + '@2x.png');
-    tempEl.innerText = data.current.temp;
-    windEl.innerText = data.current.wind_speed;
+    tempEl.innerText = Math.round(data.current.temp);
+    windEl.innerText = Math.round(data.current.wind_speed);
     humidityEl.innerText = data.current.humidity;
 }
 
