@@ -176,24 +176,28 @@ function displayDrinks(drinkArray) {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
+                    console.log(data);
                     displayInstr(data, 0);
                 })
         } else if (i == 1) {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
+                    console.log(data);
                     displayInstr(data, 1);
                 })
         } else if (i == 2) {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
+                    console.log(data);
                     displayInstr(data, 2);
                 })
         } else {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
+                    console.log(data);
                     displayInstr(data, 3);
                 })
         }
