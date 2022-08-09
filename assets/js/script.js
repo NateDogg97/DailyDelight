@@ -121,13 +121,13 @@ function ingredientAPI(icon) {
     //Turns weatherAPI input (e.g. '09d') into an ingredient to search by)
     var theIngredient;
 
-    if (icon == '01d') {                   //clear day
+    if (icon == '01d') {                           //clear day
         theIngredient = 'lime';
-    } else if (icon == '01n') {            //clear night
+    } else if (icon == '01n') {                    //clear night
         theIngredient = 'bourbon';
-    } else if (icon == '02d') {            //few clouds day
+    } else if (icon == '02d') {                    //few clouds day
         theIngredient = 'mint';
-    } else if (icon == '02n') {            //few clouds night
+    } else if (icon == '02n') {                    //few clouds night
         theIngredient = 'soda_water';
     } else if (icon == '03d' || icon == '03n') {   //scattered clouds (day&night)
         theIngredient = 'cranberry_juice';
@@ -173,7 +173,7 @@ function ingredientAPI(icon) {
                 .then(resp => resp.json())
                 .then(function (resp) {
 
-                    var respTarget = resp.drinks[0];
+                    var respTarget = resp.drinks[0]; //This is for pure convenience 
 
                     //console.log(respTarget.strIngredient1) //See that temp drink's ingredients
 
@@ -256,22 +256,27 @@ function displayDrinks(drinkArray) {
 //For each card, take that drinks details and change that card's backside text into our generated string
 function displayDetails(data, i) {
 
-    var targetData = data.drinks[0];
+    var targetData = data.drinks[0]; //This is for pure convenience 
 
     // console.log(targetData); //See the extended drink details, e.g. instructions or ingredients
 
-    var allDrinkText = "";
+    var allDrinkText = ""; //This will be added to the back of the card. Starts off an empty string.
 
+    //iterate through all 15 potential ingredients + measures in the recipe
     for (let m = 1; m < 15; m++) {
         
+        //first off, if strMeasure is something stupid like null or 'Add ' just skip to the else-if part. Otherwise take both values, write them to allDrinkTest and add a line break to the end with '\n'
         if (targetData['strMeasure'+m] !== null && targetData['strMeasure'+m] !== 'Add ') {
             allDrinkText = allDrinkText.concat("Add ", targetData['strMeasure'+m], " of ",targetData['strIngredient'+m], " \n ");
+        //So your recipe had something stupid in it. In that case we skip the measures and just list the ingredients bullet point style with a '+'
         } else if (targetData['strIngredient'+m] !== null) {
             allDrinkText = allDrinkText.concat("+ ",targetData['strIngredient'+m], " \n ");
         }
     }
 
+    //Takes all the measures and ingredient text and adds the instructions to the bottom
     allDrinkText = allDrinkText.concat(targetData.strInstructions);
+    //Now paste it all into the back of the card's text area
     instrEl[i].innerText = allDrinkText;
 }
 
