@@ -24,7 +24,6 @@ var weatherEl = document.querySelector('#weather');
 let theBtn = document.getElementById('searchBtn');
 let modal = document.getElementById('modal');
 
-
 // ====================
 //   INITIALIZATIONS
 // ==================== 
