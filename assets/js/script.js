@@ -173,28 +173,16 @@ function ingredientAPI(icon) {
                 .then(resp => resp.json())
                 .then(function (resp) {
 
-                    //console.log(resp.drinks[0].strIngredient1) //See that temp drink's ingredients
+                    var respTarget = resp.drinks[0];
+
+                    //console.log(respTarget.strIngredient1) //See that temp drink's ingredients
 
                     //...and get it's ingredients to compare to our allergen array
-                    if ( // ====================================================================                         
-                        allergiesArray.indexOf(resp.drinks[0].strIngredient1) !== -1 ||
-                        allergiesArray.indexOf(resp.drinks[0].strIngredient2) !== -1 ||
-                        allergiesArray.indexOf(resp.drinks[0].strIngredient3) !== -1 ||
-                        allergiesArray.indexOf(resp.drinks[0].strIngredient4) !== -1 ||
-                        allergiesArray.indexOf(resp.drinks[0].strIngredient5) !== -1 ||
-                        allergiesArray.indexOf(resp.drinks[0].strIngredient7) !== -1 ||
-                        allergiesArray.indexOf(resp.drinks[0].strIngredient8) !== -1 ||
-                        allergiesArray.indexOf(resp.drinks[0].strIngredient9) !== -1 ||
-                        allergiesArray.indexOf(resp.drinks[0].strIngredient10) !== -1 ||
-                        allergiesArray.indexOf(resp.drinks[0].strIngredient11) !== -1 ||
-                        allergiesArray.indexOf(resp.drinks[0].strIngredient12) !== -1 ||
-                        allergiesArray.indexOf(resp.drinks[0].strIngredient13) !== -1 ||
-                        allergiesArray.indexOf(resp.drinks[0].strIngredient14) !== -1 ||
-                        allergiesArray.indexOf(resp.drinks[0].strIngredient15) !== -1){
-                          // ====================================================================
-                            i--;
+                    for (let w = 1; w < 15; w++) {
+                        if (allergiesArray.indexOf(respTarget['strIngredient'+w]) !== -1)   {
+                                i--;
+                        }
                     }
-
                 })
 
                 // === Repeat Drink Testing ===
@@ -206,7 +194,7 @@ function ingredientAPI(icon) {
                 }
             }
 
-            console.log(drinkArray) //See the four random, non-repeating, non-allergen-containing, drinks
+            //console.log(drinkArray) //See the four random, non-repeating, non-allergen-containing, drinks
 
             //take completed drinkArray, with four rando drinks, and pass it into the displayDrinks function
             displayDrinks(drinkArray);
