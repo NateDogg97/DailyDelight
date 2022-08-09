@@ -3,3 +3,15 @@
   margin-top: 15px;
 }
 
+.activator {
+  /* display: block; */
+  max-width:50vh;
+  max-height:30vw;
+  width: auto;
+  height: auto;
+}
+
+.card-image {
+  display: flex;
+  justify-content: space-around;
+}
