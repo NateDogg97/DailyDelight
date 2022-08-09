@@ -164,6 +164,7 @@ function displayDrinks(drinkArray) {
 
         // displays drink pics
         el.setAttribute('src', drinkArray[i].strDrinkThumb);
+        el.previousElementSibling.style.background = "url('"+drinkArray[i].strDrinkThumb+"') no-repeat center";
 
         // displays title names
         mainnameEl[0].innerHTML = drinkArray[i].strDrink + ' <i class="material-icons fa-solid fa-list right"></i>';
