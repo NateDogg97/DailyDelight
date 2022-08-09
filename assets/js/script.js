@@ -13,6 +13,8 @@ var button = document.getElementById('searchBtn');
 var userInput = document.getElementById('locSearch');
 var reshuffle = document.querySelector('.waves-effect.waves-light.btn-large');
 var instrEl = document.querySelectorAll('.instr');
+var checked = document.getElementsByClassName('filled-in');
+var allergiesArray = [];
 
 // ====================
 //   INITIALIZATIONS
@@ -30,6 +32,8 @@ function btnGO() {
 
     locationName = String(userInput.value);
     console.log(locationName);
+
+    checkBoxes();
 
     geocodingAPI(locationName); //UNCOMMENT AFTER DEV COMPLETE
 
@@ -139,6 +143,35 @@ function ingredientAPI(icon) {
             for (var i = 0; i < 5; i++) {
                 var tempDrink = data.drinks[Math.floor(Math.random() * data.drinks.length)];
                 console.log(tempDrink);
+                var drinkId = data.drinks[0].idDrink;
+
+                fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkId)
+
+                .then(resp => resp.json())
+                .then(function (resp) {
+
+                    console.log(resp.drinks[0].strIngredient1)
+
+                    if ( // ====================================================================                         
+                        allergiesArray.indexOf(resp.drinks[0].strIngredient1) !== -1 ||
+                        allergiesArray.indexOf(resp.drinks[0].strIngredient2) !== -1 ||
+                        allergiesArray.indexOf(resp.drinks[0].strIngredient3) !== -1 ||
+                        allergiesArray.indexOf(resp.drinks[0].strIngredient4) !== -1 ||
+                        allergiesArray.indexOf(resp.drinks[0].strIngredient5) !== -1 ||
+                        allergiesArray.indexOf(resp.drinks[0].strIngredient7) !== -1 ||
+                        allergiesArray.indexOf(resp.drinks[0].strIngredient8) !== -1 ||
+                        allergiesArray.indexOf(resp.drinks[0].strIngredient9) !== -1 ||
+                        allergiesArray.indexOf(resp.drinks[0].strIngredient10) !== -1 ||
+                        allergiesArray.indexOf(resp.drinks[0].strIngredient11) !== -1 ||
+                        allergiesArray.indexOf(resp.drinks[0].strIngredient12) !== -1 ||
+                        allergiesArray.indexOf(resp.drinks[0].strIngredient13) !== -1 ||
+                        allergiesArray.indexOf(resp.drinks[0].strIngredient14) !== -1 ||
+                        allergiesArray.indexOf(resp.drinks[0].strIngredient15) !== -1){
+                          // ====================================================================
+                            i--;
+                    }
+
+                })
 
                 if (drinkArray.indexOf(tempDrink) !== -1) {
                     i--;
@@ -152,8 +185,17 @@ function ingredientAPI(icon) {
 
         .catch(err => console.error(err));
 
-
 };
+
+// Adding functionality to the allergy checkboxes
+
+function checkBoxes(){
+    for (i=0; i<checked.length; i++){
+    if (checked[i].checked){
+        allergiesArray.push(checked[i].nextElementSibling.textContent)
+    }
+    }
+}
 
 function displayDrinks(drinkArray) {
     for (var i = 0; i < 4; i++) {
