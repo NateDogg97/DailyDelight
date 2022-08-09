@@ -21,6 +21,8 @@ var windEl = document.querySelector('#wind');
 var humidityEl = document.querySelector('#humidity');
 var cityNameEl = document.querySelector('#city-name');
 var weatherEl = document.querySelector('#weather');
+let theBtn = document.getElementById('searchBtn');
+let modal = document.getElementById('modal');
 
 // ====================
 //   INITIALIZATIONS
@@ -305,6 +307,13 @@ function displayDetails(data, i) {
     instrEl[i].innerText = allDrinkText;
 }
 
+//RELEASE-BUTTON
+//By clicking that you're over 21, the city search button is released
+function releaseBtn() {
+    theBtn.classList.remove('default');
+    modal.classList.add('clicked');
+}
+
 
 // ====================
 //      EVENT LISTENERS
@@ -312,7 +321,12 @@ function displayDetails(data, i) {
 
 //Search button gathers input field value and passes it into API Chain
 button.addEventListener('click', btnGO);
+
+//If user doesnt like their options, this gives them a fresh pick
 reshuffle.addEventListener('click', btnGO);
+
+//This releases the search button. Should only be clicked by someone over 21
+modal.addEventListener('click', releaseBtn);
 
 // ====================
 //      ASSIST FUNCs

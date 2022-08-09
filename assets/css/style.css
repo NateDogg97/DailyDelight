@@ -115,3 +115,17 @@ h2 {
   pointer-events: none;
   opacity: .65;
 }
+
+#modal {
+  margin-top: 1rem;
+  background: rgb(27, 188, 209);
+  color: rgb(245, 245, 245);
+
+  transition-property: opacity;
+  transition-duration: 1s;
+  border: none;
+}
+
+.clicked {
+  opacity: 0%;
+}
