@@ -129,23 +129,25 @@ function ingredientAPI(icon) {
         theIngredient = 'mint';
     } else if (icon == '02n') {            //few clouds night
         theIngredient = 'soda_water';
-    } else if (icon == '03d' || '03n') {   //scattered clouds (day&night)
+    } else if (icon == '03d' || icon == '03n') {   //scattered clouds (day&night)
         theIngredient = 'cranberry_juice';
-    } else if (icon == '04d' || '04n') {   //broken clouds (day&night)
+    } else if (icon == '04d' || icon == '04n') {   //broken clouds (day&night)
         theIngredient = 'dark_rum';
-    } else if (icon == '09d' || '09n') {   //rain shower (day&night)
+    } else if (icon == '09d' || icon == '09n') {   //rain shower (day&night)
         theIngredient = 'tonic_water';
-    } else if (icon == '10d' || '10n') {   //rain (day&night)
+    } else if (icon == '10d' || icon == '10n') {   //rain (day&night)
         theIngredient = 'sugar';
-    } else if (icon == '11d' || '11n') {   //thunderstorm (day&night)
+    } else if (icon == '11d' || icon == '11n') {   //thunderstorm (day&night)
         theIngredient = 'vodka';
-    } else if (icon == '13d' || '13n') {   //snow (day&night)
+    } else if (icon == '13d' || icon == '13n') {   //snow (day&night)
         theIngredient = 'cinnamon';
-    } else if (icon == '50d' || '50n') {   //mist (day&night)
+    } else if (icon == '50d' || icon == '50n') {   //mist (day&night)
         theIngredient = 'milk';
     } else {
         theIngredient = '';
     }
+
+    console.log(theIngredient) //See the ingredient being searched for
 
     //Fetches data from the CocktailDB by searching by ingredient
     fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + theIngredient)
