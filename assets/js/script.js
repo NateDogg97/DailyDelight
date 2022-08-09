@@ -14,6 +14,14 @@ var userInput = document.getElementById('locSearch');
 var reshuffle = document.querySelector('.waves-effect.waves-light.btn-large');
 var instrEl = document.querySelectorAll('.instr');
 var checked = document.getElementsByClassName('filled-in');
+var resultEl = document.querySelector('#result');
+var dayIconEl = document.querySelector('#day-icon');
+var tempEl = document.querySelector('#temp');
+var windEl = document.querySelector('#wind');
+var humidityEl = document.querySelector('#humidity');
+var cityNameEl = document.querySelector('#city-name');
+var weatherEl = document.querySelector('#weather');
+
 
 // ====================
 //   INITIALIZATIONS
@@ -64,6 +72,7 @@ function geocodingAPI(locationName) {
         //We now have the LATITUDE and LOGITUDE of our city
         .then((data) => {
             // console.log(data); //See the data from the Geocoding API
+            showWeather(data,0);
             return [data[0].lat, data[0].lon];
         });
 
@@ -82,7 +91,7 @@ function geocodingAPI(locationName) {
 //Uses given Lat and Lon to tell current weather of that city
 function currentAPI(Lat, Lon) {
 
-    var currentURL = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + Lat + '&lon=' + Lon + '&exclude=minutely,hourly,daily,alerts&appid=3b3319e2a4bdc403d7f45843c07de674';
+    var currentURL = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + Lat + '&lon=' + Lon + '&units=imperial&exclude=minutely,hourly,daily,alerts&appid=3b3319e2a4bdc403d7f45843c07de674';
 
     //Makes the fetch current weather function an expression that is manipulatable
     const cityWeather = fetch(currentURL)
@@ -94,15 +103,16 @@ function currentAPI(Lat, Lon) {
         //We now have the current weather data as the variable 'data'
         .then(function (data) {
             // console.log(data); //See data from the OneCall API
-            let theIcon = data.current.weather[0].icon; //From that data we can get a snapshot in the form of the weather icon
-            console.log(theIcon); //See the weather snapshot we are passing into the ingredientAPI conditionals, i.e. '01d' for clear sky day or '50n' for misty night
-            return theIcon
+            //let theIcon = data.current.weather[0].icon; //From that data we can get a snapshot in the form of the weather icon
+            //console.log(theIcon); //See the weather snapshot we are passing into the ingredientAPI conditionals, i.e. '01d' for clear sky day or '50n' for misty night
+            return data;
         });
 
     //Now we pass the weather icon to the ingredientAPI
     const passtoCocktailDB = () => {
-        cityWeather.then((theIcon) => {
-            ingredientAPI(theIcon);
+        cityWeather.then((data) => {
+            ingredientAPI(data);
+            showWeather(data, 1);
         });
     };
 
@@ -110,12 +120,28 @@ function currentAPI(Lat, Lon) {
 
 };
 
+function showWeather(data , x) {
+    dayIconEl.style.display = 'block';
+    if (x === 0) {
+        cityNameEl.innerText = data[0].name;
+        return;
+    }
+    weatherEl.innerText = data.current.weather[0].main;
+    dayIconEl.setAttribute('src', 'http://openweathermap.org/img/wn/' + data.current.weather[0].icon + '@2x.png');
+    tempEl.innerText = Math.round(data.current.temp);
+    windEl.innerText = Math.round(data.current.wind_speed);
+    humidityEl.innerText = data.current.humidity;
+    
+}
+
 //COCKTAIL-INGREDIENT-API
 //Takes the icon from weather API, turns that into a cocktail ingredient, then searches based on that ingredient
-function ingredientAPI(icon) {
+function ingredientAPI(data) {
 
     //array of all drinks that 1) Are not already added 2) dont have allergen in their ingredients
     var drinkArray = [];
+
+    let icon = data.current.weather[0].icon;
 
     // === Conditionals ===
     //Turns weatherAPI input (e.g. '09d') into an ingredient to search by)
