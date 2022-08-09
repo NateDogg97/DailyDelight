@@ -11,9 +11,23 @@
   height: auto;
 }
 
+.blurguy {
+  background: url('../Images/office.jpg') no-repeat center;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  filter: blur(8px);
+  z-index: -1;
+
+}
+
 .card-image {
   display: flex;
   justify-content: space-around;
+  position: relative;
 }
 
 .alert_container {
@@ -62,4 +76,3 @@
   border-radius: 3px;
   cursor: pointer;
 }
-  
