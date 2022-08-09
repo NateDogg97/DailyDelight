@@ -110,3 +110,8 @@ h2 {
 .weather {
   align-self: center;
 }
+
+.default {
+  pointer-events: none;
+  opacity: .65;
+}

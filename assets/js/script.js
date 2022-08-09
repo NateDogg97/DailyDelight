@@ -22,7 +22,6 @@ var humidityEl = document.querySelector('#humidity');
 var cityNameEl = document.querySelector('#city-name');
 var weatherEl = document.querySelector('#weather');
 
-
 // ====================
 //   INITIALIZATIONS
 // ==================== 
