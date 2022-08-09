@@ -157,17 +157,21 @@ function ingredientAPI(icon) {
         //data here contains every drink made with 'theIngredient'
         .then(function (data) {
 
+            console.log(data); //See all the drinks made by that ingredient
+
             //we want four drinks out of 'data'
             for (var i = 0; i < 4; i++) {
+
+                var dontPush = 0;
 
                 //we want those four drinks to be randomly selected
                 var tempDrink = data.drinks[Math.floor(Math.random() * data.drinks.length)];
 
-                //console.log(tempDrink); //See the random drink selected out of our data pool
+                console.log(tempDrink); //See the random drink selected out of our data pool
 
                 // === Allergen Testing ===
                 //Take the temp drink's id... 
-                var tempdrinkId = data.drinks[0].idDrink;
+                var tempdrinkId = tempDrink.idDrink;
                 fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + tempdrinkId)
 
                 .then(resp => resp.json())
@@ -175,23 +179,35 @@ function ingredientAPI(icon) {
 
                     var respTarget = resp.drinks[0]; //This is for pure convenience 
 
-                    //console.log(respTarget.strIngredient1) //See that temp drink's ingredients
+                    //console.log(respTarget.strIngredient1) //See an array of that temp drink's ingredients
 
                     //...and get it's ingredients to compare to our allergen array
                     for (let w = 1; w < 15; w++) {
-                        if (allergiesArray.indexOf(respTarget['strIngredient'+w]) !== -1)   {
+                        //console.log(respTarget['strIngredient'+w]); //See that temp drink's ingredients individually printed out
+                        if (respTarget['strIngredient'+w] == null) {
+                            return;
+                        } else if (allergiesArray.indexOf(respTarget['strIngredient'+w]) !== -1)   {
+                                console.log(respTarget); //See a drink that gets caught in the allergen filter
+                                dontPush++
                                 i--;
+                            return;
                         }
                     }
                 })
+
+                console.log(dontPush);
 
                 // === Repeat Drink Testing ===
                 //make sure tempDrink has not already been randomly selected and pushed to drinkArray
                 if (drinkArray.indexOf(tempDrink) !== -1) {
                     i--;
-                } else {
+                    dontPush++
+                };
+                    
+                if (dontPush == 0) {
                     drinkArray.push(tempDrink);
-                }
+                };
+                
             }
 
             //console.log(drinkArray) //See the four random, non-repeating, non-allergen-containing, drinks
