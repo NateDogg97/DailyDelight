@@ -19,6 +19,7 @@ var tempEl = document.querySelector('#temp');
 var windEl = document.querySelector('#wind');
 var humidityEl = document.querySelector('#humidity');
 var cityNameEl = document.querySelector('#city-name');
+var weatherEl = document.querySelector('#weather');
 
 
 // ====================
@@ -109,10 +110,12 @@ function showWeather(data , x) {
         cityNameEl.innerText = data[0].name;
         return;
     }
+    weatherEl.innerText = data.current.weather[0].main;
     dayIconEl.setAttribute('src', 'http://openweathermap.org/img/wn/' + data.current.weather[0].icon + '@2x.png');
     tempEl.innerText = Math.round(data.current.temp);
     windEl.innerText = Math.round(data.current.wind_speed);
     humidityEl.innerText = data.current.humidity;
+    
 }
 
 //COCKTAIL-INGREDIENT-API
