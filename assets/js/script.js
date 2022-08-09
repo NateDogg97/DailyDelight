@@ -29,7 +29,7 @@ var locationName;
 function btnGO() {
 
     locationName = String(userInput.value);
-    console.log(locationName);
+    // console.log(locationName); //See the string searched by the user
 
     geocodingAPI(locationName); //UNCOMMENT AFTER DEV COMPLETE
 
@@ -49,7 +49,7 @@ function geocodingAPI(locationName) {
 
         //We now have the LATITUDE and LOGITUDE of our city
         .then((data) => {
-            console.log(data); //See the data from the Geocoding API
+            // console.log(data); //See the data from the Geocoding API
             return [data[0].lat, data[0].lon];
         });
 
@@ -80,7 +80,8 @@ function currentAPI(Lat, Lon) {
         //We now have the current weather data as the variable 'data'
         .then(function (data) {
             console.log(data); //See data from the OneCall API
-            let theIcon = data.current.weather.icon; //From that data we can get a snapshot in the form of the weather icon
+            let theIcon = data.current.weather[0].icon; //From that data we can get a snapshot in the form of the weather icon
+            console.log(theIcon); //See the icon value being passed into the conditionals
             return theIcon
         });
 
@@ -103,31 +104,33 @@ function ingredientAPI(icon) {
 
     var theIngredient;
 
-    if (icon === '01d') {
+    if (icon == '01d') {                   //clear day
         theIngredient = 'lime';
-    } else if (icon === '01n') {
+    } else if (icon == '01n') {            //clear night
         theIngredient = 'bourbon';
-    } else if (icon === '02d') {
+    } else if (icon == '02d') {            //few clouds day
         theIngredient = 'mint';
-    } else if (icon === '02n') {
+    } else if (icon == '02n') {            //few clouds night
         theIngredient = 'soda_water';
-    } else if (icon === '03d' || '03n') {
+    } else if (icon == '03d' || '03n') {   //scattered clouds (day&night)
         theIngredient = 'cranberry_juice';
-    } else if (icon === '04d' || '04n') {
+    } else if (icon == '04d' || '04n') {   //broken clouds (day&night)
         theIngredient = 'dark_rum';
-    } else if (icon === '09d' || '09n') {
+    } else if (icon == '09d' || '09n') {   //rain shower (day&night)
         theIngredient = 'tonic_water';
-    } else if (icon === '10d' || '10n') {
+    } else if (icon == '10d' || '10n') {   //rain (day&night)
         theIngredient = 'sugar';
-    } else if (icon === '11d' || '11n') {
+    } else if (icon == '11d' || '11n') {   //thunderstorm (day&night)
         theIngredient = 'vodka';
-    } else if (icon === '13d' || '13n') {
+    } else if (icon == '13d' || '13n') {   //snow (day&night)
         theIngredient = 'cinnamon';
-    } else if (icon === '50d' || '50n') {
+    } else if (icon == '50d' || '50n') {   //mist (day&night)
         theIngredient = 'milk';
     } else {
         theIngredient = '';
     }
+
+    console.log(theIngredient); //See what the drinks are being chosen based on
 
     //Fetches data from the CocktailDB by searching by ingredient
     fetch('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' + theIngredient)
@@ -136,9 +139,9 @@ function ingredientAPI(icon) {
 
         .then(function (data) {
 
-            for (var i = 0; i < 5; i++) {
+            for (var i = 0; i < 4; i++) {
                 var tempDrink = data.drinks[Math.floor(Math.random() * data.drinks.length)];
-                console.log(tempDrink);
+                // console.log(tempDrink);
 
                 if (drinkArray.indexOf(tempDrink) !== -1) {
                     i--;
@@ -176,28 +179,24 @@ function displayDrinks(drinkArray) {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
-                    console.log(data);
                     displayInstr(data, 0);
                 })
         } else if (i == 1) {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
-                    console.log(data);
                     displayInstr(data, 1);
                 })
         } else if (i == 2) {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
-                    console.log(data);
                     displayInstr(data, 2);
                 })
         } else {
             fetch('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + drinkArray[i].idDrink)
                 .then(response => response.json())
                 .then(function (data) {
-                    console.log(data);
                     displayInstr(data, 3);
                 })
         }
@@ -206,20 +205,25 @@ function displayDrinks(drinkArray) {
 }
 
 function displayInstr(data, i) {
-    instrEl[i].innerText = data.drinks[0].strInstructions;
+
+    var targetData = data.drinks[0];
+
+    // console.log(targetData); //See the extended drink details, e.g. instructions or ingredients
+
+    var everything2paste = "";
+
+    for (let m = 1; m < 15; m++) {
+        
+        if (targetData['strMeasure'+m] !== null && targetData['strMeasure'+m] !== 'Add ') {
+            everything2paste = everything2paste.concat("Add ", targetData['strMeasure'+m], " of ",targetData['strIngredient'+m], " \n ");
+        } else if (targetData['strIngredient'+m] !== null) {
+            everything2paste = everything2paste.concat("+ ",targetData['strIngredient'+m], " \n ");
+        }
+    }
+
+    everything2paste = everything2paste.concat(targetData.strInstructions);
+    instrEl[i].innerText = everything2paste;
 }
-
-//CONDITIONALS
-//These variables make ingredientAPI work
-var clearSky = 'lime_juice'
-var clearSkyNight = 'bourbon'
-
-
-//COCKTAIL-ID-API
-//Takes the ID from the ingredient API and gives back all the drink details
-// function cocktailAPI(ID) {
-// }
-
 
 // ====================
 //      EVENT LISTENERS
