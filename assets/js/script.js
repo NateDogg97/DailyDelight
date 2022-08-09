@@ -31,14 +31,12 @@ var locationName;
 function btnGO() {
 
     locationName = String(userInput.value);
-    console.log(locationName);
+    // console.log(locationName); //See string being passed into GeocodingAPI, i.e. the value user searched for
 
     checkBoxes();
 
-    geocodingAPI(locationName); //UNCOMMENT AFTER DEV COMPLETE
+    geocodingAPI(locationName);
 
-    //let icon = '';  //REMOVE THIS LINE AND NEXT AFTER DEV
-    //ingredientAPI(icon); //For dev, bypass openweatherAPI chain entirely and just use CocktailDB
 };
 
 function geocodingAPI(locationName) {
@@ -53,7 +51,7 @@ function geocodingAPI(locationName) {
 
         //We now have the LATITUDE and LOGITUDE of our city
         .then((data) => {
-            console.log(data); //See the data from the Geocoding API
+            // console.log(data); //See the data from the Geocoding API
             return [data[0].lat, data[0].lon];
         });
 
@@ -83,8 +81,9 @@ function currentAPI(Lat, Lon) {
 
         //We now have the current weather data as the variable 'data'
         .then(function (data) {
-            console.log(data); //See data from the OneCall API
-            let theIcon = data.current.weather.icon; //From that data we can get a snapshot in the form of the weather icon
+            // console.log(data); //See data from the OneCall API
+            let theIcon = data.current.weather[0].icon; //From that data we can get a snapshot in the form of the weather icon
+            console.log(theIcon); //See the weather snapshot we are passing into the ingredientAPI conditionals, i.e. '01d' for clear sky day or '50n' for misty night
             return theIcon
         });
 
@@ -191,9 +190,9 @@ function ingredientAPI(icon) {
 
 function checkBoxes(){
     for (i=0; i<checked.length; i++){
-    if (checked[i].checked){
-        allergiesArray.push(checked[i].nextElementSibling.textContent)
-    }
+        if (checked[i].checked){
+            allergiesArray.push(checked[i].nextElementSibling.textContent)
+        }
     }
 }
 
