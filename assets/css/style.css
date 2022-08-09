@@ -76,3 +76,37 @@
   border-radius: 3px;
   cursor: pointer;
 }
+
+/* weather display */
+#day {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding-left: 5px;
+  margin-top: 10px;
+  width: 100%;
+  height: fit-content;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+#day-icon {
+  width: 100px;
+  height: 100px;
+  display: none;
+}
+#city-name {
+  color: tan;
+}
+h3 {
+  margin: 0;
+  font-size: 30px;
+  align-self: center;
+}
+h2 {
+  margin: 0;
+  font-size: 35px;
+}
+.weather {
+  align-self: center;
+}
