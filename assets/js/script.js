@@ -61,7 +61,7 @@ function btnGO() {
 //GEOCODING-API
 //User input is passed inside and the longitude and latitude for that city is given and passed into the weather API
 function geocodingAPI(locationName) {
-    var LONGLATurl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + locationName + '&limit=1&appid=3b3319e2a4bdc403d7f45843c07de674';
+    var LONGLATurl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + locationName + '&limit=1&appid=3b3319e2a4bdc403d7f45843c07de674';
 
     //Write our fetch request function as an expression
     const geoData = fetch(LONGLATurl)
@@ -128,7 +128,7 @@ function showWeather(data , x) {
         return;
     }
     weatherEl.innerText = data.current.weather[0].main;
-    dayIconEl.setAttribute('src', 'http://openweathermap.org/img/wn/' + data.current.weather[0].icon + '@2x.png');
+    dayIconEl.setAttribute('src', 'https://openweathermap.org/img/wn/' + data.current.weather[0].icon + '@2x.png');
     tempEl.innerText = Math.round(data.current.temp);
     windEl.innerText = Math.round(data.current.wind_speed);
     humidityEl.innerText = data.current.humidity;
