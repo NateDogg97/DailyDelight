@@ -15,7 +15,7 @@ Search your city by name in the side bar. Your local weather will be run through
 <img src='.\assets\Images\dd-scrnsht.png' alt='A screenshot of the website'/>
 
 ## VISIT:
-Click <a href="https://natedogg97.github.io/DailyDelight/" target="_blank">here</a> to find out what to make tonight!
+Click <a href="https://lawhornmatt.github.io/DailyDelight/" target="_blank">here</a> to find out what to make tonight!
 
 ## CREDIT:
 Team Runtime-Terror is:
