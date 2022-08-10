@@ -31,6 +31,8 @@ let modal = document.getElementById('modal');
 var locationName;
 var allergiesArray = [];
 
+const openWeatherAPIkey = '';
+
 // ====================
 //      FUNCTIONS
 // ====================
@@ -53,15 +55,17 @@ function btnGO() {
     // console.log(locationName); //See string being passed into GeocodingAPI, i.e. the value user searched for
 
     checkBoxes();
-
+    if (openWeatherAPIkey == '') {
+        alert('Open script.js and put in your OpenWeather API Key')
+    } else {
     geocodingAPI(locationName);
-
+    }
 };
 
 //GEOCODING-API
 //User input is passed inside and the longitude and latitude for that city is given and passed into the weather API
 function geocodingAPI(locationName) {
-    var LONGLATurl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + locationName + '&limit=1&appid=3b3319e2a4bdc403d7f45843c07de674';
+    var LONGLATurl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + locationName + '&limit=1&appid=' + openWeatherAPIkey;
 
     //Write our fetch request function as an expression
     const geoData = fetch(LONGLATurl)
@@ -92,7 +96,7 @@ function geocodingAPI(locationName) {
 //Uses given Lat and Lon to tell current weather of that city
 function currentAPI(Lat, Lon) {
 
-    var currentURL = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + Lat + '&lon=' + Lon + '&units=imperial&exclude=minutely,hourly,daily,alerts&appid=3b3319e2a4bdc403d7f45843c07de674';
+    var currentURL = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + Lat + '&lon=' + Lon + '&units=imperial&exclude=minutely,hourly,daily,alerts&appid=' + openWeatherAPIkey;
 
     //Makes the fetch current weather function an expression that is manipulatable
     const cityWeather = fetch(currentURL)
@@ -121,6 +125,8 @@ function currentAPI(Lat, Lon) {
 
 };
 
+//SHOW-WEATHER
+//Adds weather data to the website weather widget
 function showWeather(data , x) {
     dayIconEl.style.display = 'block';
     if (x === 0) {
