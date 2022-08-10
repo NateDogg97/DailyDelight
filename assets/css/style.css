@@ -12,7 +12,7 @@
 }
 
 .blurguy {
-  background: url('../Images/office.jpg') no-repeat center;
+  background-image: url('../Images/office.jpg') no-repeat center;
   background-size: cover;
   position: absolute;
   top: 0;
