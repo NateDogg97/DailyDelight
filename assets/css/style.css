@@ -129,3 +129,23 @@ h2 {
 .clicked {
   opacity: 0%;
 }
+
+#allergyForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 3rem;
+}
+
+.chxLabel {
+  font-size: 1rem;
+  color: black;
+  margin-top: 1rem;
+}
+
+#reshuffleBtn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
