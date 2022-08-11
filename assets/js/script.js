@@ -31,7 +31,7 @@ let modal = document.getElementById('modal');
 var locationName;
 var allergiesArray = [];
 
-const openWeatherAPIkey = '';
+const openWeatherAPIkey = '12978f3420559341dd3734cd18bacdec';
 
 // ====================
 //      FUNCTIONS
