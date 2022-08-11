@@ -1,3 +1,5 @@
+[Runtime Terror Daily Delight.pdf](https://github.com/NateDogg97/DailyDelight/files/9308020/Runtime.Terror.Daily.Delight.pdf)
+[Runtime Terror Daily Delight.pdf](https://github.com/NateDogg97/DailyDelight/files/9308023/Runtime.Terror.Daily.Delight.pdf)
 ## WELCOME:
 
 
