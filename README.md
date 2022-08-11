@@ -19,12 +19,12 @@ Click <a href="https://natedogg97.github.io/DailyDelight/" target="_blank">here<
 
 ## CREDIT:
 Team Runtime-Terror is:
-* Bryant Fredieu
-* Davey Douglas
-* Juan Gonzales
-* Matty Lawhorn
-* Nathaniel Mays
-* LaTavya "Tay" Collins
+* <a href="https://github.com/ibfredieu" target="_blank">Bryant Fredieu</a>
+* <a href="https://github.com/ddouglas86" target="_blank">Davey Douglas</a>
+* <a href="https://github.com/JuaGon653" target="_blank">Juan Gonzales</a>
+* <a href="https://github.com/Lawhornmatt" target="_blank">Matty Lawhorn</a>
+* <a href="https://github.com/NateDogg97" target="_blank">Nathaniel Mays</a>
+* <a href="https://github.com/Collins418" target="_blank">LaTavya "Tay" Collins</a>
 
 July/August 2022
 
